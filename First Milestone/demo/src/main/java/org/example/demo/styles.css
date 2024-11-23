@@ -1,0 +1,30 @@
+.action-button {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-padding: 8 16;
+    -fx-min-width: 200px;
+    -fx-min-height: 40px;
+    -fx-cursor: hand;
+}
+
+.action-button:hover {
+    -fx-background-color: #1976D2;
+}
+
+.run-button {
+    -fx-background-color: #4CAF50;
+}
+
+.run-button:hover {
+    -fx-background-color: #388E3C;
+}
+
+.stop-button {
+    -fx-background-color: #f44336;
+}
+
+.stop-button:hover {
+    -fx-background-color: #d32f2f;
+}
