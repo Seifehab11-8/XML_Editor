@@ -67,6 +67,7 @@ public class XMLDecompressor {
         // Write the content to the specified file, overwriting if it exists
         Files.write(Paths.get(filePath), content.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
     }
+}
 
     public static void main(String[] args) {
         // Check if the user provided the input and output file paths
