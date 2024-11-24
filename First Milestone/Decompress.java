@@ -34,7 +34,9 @@ public class XMLDecompressor {
             .replace("<p>", "<post>")
             .replace("</p>", "</post>")
             .replace("<f>", "<follower>")
-            .replace("</f>", "</follower>");
+            .replace("</f>", "</follower>")
+        	.replace("<fs>", "<followers>")
+        	.replace("</fs>", "</followers>");
     }
 
     // Expand repeated characters in the text (e.g., a4 -> aaaa)
@@ -67,40 +69,5 @@ public class XMLDecompressor {
         // Write the content to the specified file, overwriting if it exists
         Files.write(Paths.get(filePath), content.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
     }
-}
-
-    public static void main(String[] args) {
-        // Check if the user provided the input and output file paths
-        if (args.length < 2) {
-            System.out.println("Usage: java XMLDecompressor <path_to_compressed_xml_file> <path_to_decompressed_output_file>");
-            return;
-        }
-
-        // Get the input and output file paths from the arguments
-        String inputFilePath = args[0];
-        String outputFilePath = args[1];
-
-        try {
-            // Create an instance of the decompressor
-            XMLDecompressor decompressor = new XMLDecompressor();
-
-            // Read the compressed file
-            String compressedXML = decompressor.readFile(inputFilePath);
-
-            // Decompress the file content
-            String decompressedXML = decompressor.decompress(compressedXML);
-
-            // Write the decompressed content to the output file
-            decompressor.writeFile(outputFilePath, decompressedXML);
-
-            // Notify the user of success
-            System.out.println("Decompressed XML written to: " + outputFilePath);
-        } catch (IOException e) {
-            // Handle file reading/writing errors
-            System.err.println("Error reading or writing the file: " + e.getMessage());
-        } catch (Exception e) {
-            // Handle any other errors
-            System.err.println("Error decompressing the file: " + e.getMessage());
-        }
-    }
+    
 }
