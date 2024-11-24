@@ -1,15 +1,15 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+
 
 public class XMLDecompressor {
 
-    // Method to decompress the compressed XML content
+    /* Method to decompress the compressed file */
     public String decompress(String compressedXML) {
-        // Check if the input is valid (not null or empty)
         if (compressedXML == null || compressedXML.isEmpty()) {
             throw new IllegalArgumentException("Input cannot be null or empty");
         }
@@ -19,55 +19,75 @@ public class XMLDecompressor {
 
         // Step 2: Expand compressed text (e.g., a4 -> aaaa)
         decompressed = expandCompressedText(decompressed);
-
-        // Return the fully decompressed content
+        
+        /* Return decompressed as a String */
         return decompressed;
     }
 
-    // Replace abbreviated tags (like <u>) with original ones (like <user>)
+    /* Replace Tags Method
+       Takes the input compressed file 
+       as parameter string
+       and replaces the short tags
+       with full tags
+     */
     private String replaceTags(String input) {
-        return input
-            .replace("<u>", "<user>")
-            .replace("</u>", "</user>")
-            .replace("<i>", "<id>")
-            .replace("</i>", "</id>")
-            .replace("<p>", "<post>")
-            .replace("</p>", "</post>")
-            .replace("<f>", "<follower>")
-            .replace("</f>", "</follower>")
-        	.replace("<fs>", "<followers>")
-        	.replace("</fs>", "</followers>");
-    }
+        String[] shortTags = {"<u>", "</u>", "<us>", "</us>", "<i>", "</i>", "<p>", "</p>",
+                              "<f>", "</f>", "<fs>", "</fs>", "<t>", "</t>", "<ts>", "</ts>",
+                              "<b>", "</b>", "<ps>", "</ps>", "<name>", "</name>"};
 
-    // Expand repeated characters in the text (e.g., a4 -> aaaa)
-    private String expandCompressedText(String input) {
-        // Use a regular expression to find patterns like a4
-        Pattern pattern = Pattern.compile("([a-zA-Z])\\d+");
-        Matcher matcher = pattern.matcher(input);
-        StringBuffer result = new StringBuffer();
+        String[] fullTags = {"<user>", "</user>", "<users>", "</users>", "<id>", "</id>", "<post>", "</post>",
+                             "<follower>", "</follower>", "<followers>", "</followers>", "<topic>", "</topic>",
+                             "<topics>", "</topics>", "<body>", "</body>", "<posts>", "</posts>", "<name>", "</name>"};
 
-        // Process each match found by the regex
-        while (matcher.find()) {
-            String charToRepeat = matcher.group(1); // Get the character to repeat
-            int count = Integer.parseInt(matcher.group().substring(1)); // Get the number after the character
-            matcher.appendReplacement(result, charToRepeat.repeat(count)); // Replace with repeated characters
+        for (int i = 0; i < shortTags.length; i++) {
+            input = input.replace(shortTags[i], fullTags[i]);
         }
 
-        // Append the rest of the text that was not matched
-        matcher.appendTail(result);
+        return input;
+    }
+
+    /* This Method Expand Text in the Compressed file
+     Parameter is a string
+     Ex: a4 = aaaa  */
+    private String expandCompressedText(String input) {
+        StringBuilder result = new StringBuilder();
+        char[] chars = input.toCharArray();
+
+        for (int i = 0; i < chars.length; i++) {
+            char currentChar = chars[i];
+
+            if (i + 1 < chars.length && Character.isDigit(chars[i + 1])) {
+                int count = chars[i + 1] - '0'; // Convert char digit to integer
+
+                for (int j = 0; j < count; j++) {
+                    result.append(currentChar);
+                }
+
+                i++; // Skip the digit character
+            } else {
+                result.append(currentChar);
+            }
+        }
+
         return result.toString();
     }
 
-    // Read the content of a file from the given file path
+    /* Read The content of the file [Compressed file] */
     public String readFile(String filePath) throws IOException {
-        // Read all bytes from the file and convert to a string
-        return new String(Files.readAllBytes(Paths.get(filePath)));
+        StringBuilder content = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                content.append(line);
+            }
+        }
+        return content.toString();
     }
 
-    // Write the decompressed content to a file
+    /* Write the content of the file [DeCompressed file] */
     public void writeFile(String filePath, String content) throws IOException {
-        // Write the content to the specified file, overwriting if it exists
-        Files.write(Paths.get(filePath), content.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write(content);
+        }
     }
-    
 }
