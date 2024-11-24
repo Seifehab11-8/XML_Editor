@@ -10,10 +10,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Minifying {
+public class XMLMinifier {
 
-    public static void main(String[] args) throws FileNotFoundException, IOException {
-        FileInputStream input_file = new FileInputStream("sample.txt");
+    public static void minifyFile(String inputFilePath, String outputFilePath) throws FileNotFoundException, IOException {
+        FileInputStream input_file = new FileInputStream(inputFilePath);
         List<Byte> byteList = new ArrayList<>();//dynamic array
         int data;
         while((data=input_file.read())!=-1)
@@ -24,17 +24,10 @@ public class Minifying {
             }
         }
         input_file.close();
-        // byte[] byteArray = new byte[byteList.size()];
-        //for (int i = 0; i < byteList.size(); i++) {
-        //    byteArray[i] = byteList.get(i); // Dynamic conversion
-        //}
-       // String output_filee =new String(byteArray);
-        //System.out.println(output_filee);
-        FileOutputStream output_file=new FileOutputStream("output.txt");
+        FileOutputStream output_file=new FileOutputStream(outputFilePath);
         for(int i=0;i<byteList.size();i++){
             output_file.write(byteList.get(i));
         }
-        //output_file.write(byteList.getBytes());
         output_file.flush();//to make sure stream is empty
         output_file.close();
     }
