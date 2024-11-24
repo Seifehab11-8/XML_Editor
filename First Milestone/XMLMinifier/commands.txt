@@ -1,0 +1,2 @@
+javac *.java
+java xmlminifier.xml_editor mini -i input_file.xml -o output_file.xml
