@@ -29,9 +29,9 @@ public class JsonDecompressor {
        with full tags
      */
     private String replaceTags(String input) {
-        String[] shortTags = {"\"u\"", "\"us\"", "\"i\"", "\"p\"", "\"f\"", "\"fs\"", "\"t\"", "\"ts\"", "\"b\"", "\"ps\"", "\"n\""};
+    String[] shortTags = {"\"u\"", "\"us\"", "\"i\"", "\"p\"", "\"f\"", "\"fs\"", "\"t\"", "\"ts\"", "\"b\"", "\"ps\"", "\"n\""};
+    String[] fullTags = {"\"user\":", "\"users\":", "\"id\":", "\"post\":", "\"follower\":", "\"followers\":", "\"topic\":", "\"topics\":", "\"body\":", "\"posts\":", "\"name\":"};
 
-        String[] fullTags = {"\"user\"", "\"users\"", "\"id\"", "\"post\"", "\"follower\"", "\"followers\"", "\"topic\"", "\"topics\"", "\"body\"", "\"posts\"", "\"name\""};
 
         for (int i = 0; i < shortTags.length; i++) {
             input = input.replace(shortTags[i], fullTags[i]);
