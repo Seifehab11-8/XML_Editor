@@ -15,7 +15,7 @@ import java.io.FileNotFoundException;
 
 // Main class
 public class HelloWorld {
-    String indent(int num){
+    static String indent(int num){
         String ind = "";
         for(int i=0;i<num;i++){
             ind += "\t";
@@ -26,18 +26,18 @@ public class HelloWorld {
     public static void main(String[] args) {
         Stack<String> stack = new Stack<>();
         File file = new File("sample.txt");
+        String out = "";
         try (Scanner scanner = new Scanner(file)) {
             // Read the file line by line
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                String out = "";
                 int depth = 0;
                 //System.out.println(line[1:line.length()-1]);
                 //stack.push(line);
                 //line = line.replaceAll("ro+t", "toor");
                 if(line.matches("<(\\p{Alnum}+)>")){
                     String key = line.replaceAll("(<?>?)", "");
-                    System.out.println("start : "+ key);
+                    //System.out.println("start : "+ key);
                     depth++;
                     stack.push(key);
                     out+=indent(depth)+line+"\n";
@@ -45,23 +45,24 @@ public class HelloWorld {
                 }
                 else if(line.matches("</(\\p{Alnum}+)>")){
                     String key = line.replaceAll("(<?>?)", "");
-                    System.out.println("end : "+key);
+                    //System.out.println("end : "+key);
                     depth--;
                     if(stack.peek()==key){
-                        System.out.println("indeed they are equal");
+                        //System.out.println("indeed they are equal");
+                        stack.pop();
                     }else{
-                        System.out.println("Not equal");
+                        //System.out.println("Not equal");
                     }
                     out+=indent(depth)+line+"\n";
 
                 }
                 else if(line.matches("<(\\p{Alnum}*)>\\p{ASCII}*<(/\\1)>")){
-                    System.out.println("Double : " + line);
+                    //System.out.println("Double : " + line);
                     depth++;
                     String indentplus = indent(depth);
-                    line = line.replaceAll("<(\\p{Alnum}+)>(\\p{Alnum})<\\1>","<\\1>\n"+indentplus+"\t\\2\n"+indentplus+"\\1\n");
+                    line = line.replaceAll("<(\\p{Alnum}+)>(\\p{Alnum})<\\1>","<\\1>\n"+indentplus+"\t$2\n"+indentplus+"$1\n");
                 }
-                //System.out.println(line);
+                System.out.print(out);
             }
 
         } catch (FileNotFoundException e) {
