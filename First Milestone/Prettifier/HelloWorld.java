@@ -29,10 +29,13 @@ public class HelloWorld {
                 if(line.matches("<(\\p{Alnum}+)>")){
                     System.out.println("start : "+ line.replaceAll("(<?>?)", ""));
                 }
-                else if(line.matches("<(\\p{Alnum}*)>\\p{ASCII}*<(/\\p{Alnum}*)>")){
-                    System.out.println("Double");
+                else if(line.matches("</(\\p{Alnum}+)>")){
+                    System.out.println("end : "+line.replaceAll("<?>?", ""));
                 }
-                System.out.println(line);
+                else if(line.matches("<(\\p{Alnum}*)>\\p{ASCII}*<(/\\1)>")){
+                    System.out.println("Double : " + line);
+                }
+                //System.out.println(line);
             }
 
         } catch (FileNotFoundException e) {
