@@ -25,7 +25,7 @@ public class HelloWorld {
                 String line = scanner.nextLine();
                 //System.out.println(line[1:line.length()-1]);
                 //stack.push(line);
-                line.replaceAll("<\\(\\p{Alnum}+\\)>", "\1?");
+                line = line.replaceAll("ro+t", "toor");
                 System.out.println(line);
             }
 
