@@ -26,8 +26,8 @@ public class HelloWorld {
                 //System.out.println(line[1:line.length()-1]);
                 //stack.push(line);
                 //line = line.replaceAll("ro+t", "toor");
-                if(line.matches("<(\\w+)>")){
-                    System.out.println("single");
+                if(line.matches("<(\\p{Alnum}+)>")){
+                    System.out.println("start : "+ line.replaceAll("(<?>?)", ""));
                 }
                 else if(line.matches("<(\\p{Alnum}*)>\\p{ASCII}*<(/\\p{Alnum}*)>")){
                     System.out.println("Double");
