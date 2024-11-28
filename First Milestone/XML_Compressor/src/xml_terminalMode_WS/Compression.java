@@ -120,7 +120,7 @@ public class Compression {
 			for (String line : bufferList)	
 			{ 
 				writer.write(line); 
-//				writer.newLine(); 
+				writer.newLine(); 
 				// Write a new line to separate lines in the file 
 			}
 		}catch (IOException e) { 
