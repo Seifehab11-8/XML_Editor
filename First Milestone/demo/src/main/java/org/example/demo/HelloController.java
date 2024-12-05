@@ -122,6 +122,8 @@ public class HelloController {
             SecondController secondController = fxmlLoader.getController();
             secondController.SetFilePath(filePathField.getText());
             Stage stage = (Stage) Start.getScene().getWindow();
+            stage.setWidth(stage.getWidth());
+            stage.setHeight(stage.getHeight());
             stage.setScene(new Scene(root));
             stage.show();
 

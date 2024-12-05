@@ -10,60 +10,64 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="572.0" prefWidth="711.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.demo.SecondController" stylesheets="styles.css">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="572.0" prefWidth="711.0" style="-fx-background-color: black;" stylesheets="styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.demo.SecondController">
     <AnchorPane layoutY="5.0" prefHeight="449.0" prefWidth="128.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="9.0">
-        <ToggleButton fx:id="NightMode" blendMode="SCREEN" contentDisplay="CENTER" layoutX="4.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="128.0" style="-fx-background-color: rgb(91, 91, 240); -fx-background-radius: 45; -fx-text-fill: white; -fx-font-size: 13;" AnchorPane.bottomAnchor="526.0" AnchorPane.leftAnchor="4.0" AnchorPane.topAnchor="2.0">
+        <ToggleButton fx:id="NightMode"  blendMode="SCREEN" contentDisplay="CENTER" layoutX="4.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="128.0" style="-fx-background-color:#5B5BF0; -fx-background-radius: 45; -fx-text-fill: white; -fx-font-size: 13;" AnchorPane.bottomAnchor="526.0" AnchorPane.leftAnchor="4.0" AnchorPane.topAnchor="2.0">
          <font>
             <Font name="Bell MT" size="21.0" />
-         </font></ToggleButton>
+         </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </ToggleButton>
 
     </AnchorPane>
     <AnchorPane layoutX="3.0" prefHeight="518.0" prefWidth="118.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="3.0" AnchorPane.topAnchor="39.0">
-        <VBox layoutY="39.0" prefHeight="466.0" prefWidth="128.0" AnchorPane.bottomAnchor="59.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox layoutY="39.0" prefHeight="409.0" prefWidth="128.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <Separator prefHeight="15.0" prefWidth="128.0" style="-fx-opacity: 0;" VBox.vgrow="ALWAYS" />
-            <Button fx:id="correction" mnemonicParsing="false" prefHeight="70.0" prefWidth="150.0" style="-fx-border-color: rgb(91, 91, 240); -fx-background-color: trans; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
+            <Button fx:id="correction" mnemonicParsing="false" prefHeight="70.0" prefWidth="150.0" style="-fx-border-color: #5B5BF0; -fx-background-color: trans; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
          <Separator prefHeight="0.0" prefWidth="125.0" style="-fx-opacity: 0;" VBox.vgrow="ALWAYS" />
-            <Button fx:id="detection" mnemonicParsing="false" prefHeight="70.0" prefWidth="150.0" style="-fx-border-color: rgb(91, 91, 240); -fx-background-color: trans; -fx-border-radius: 33; -fx-border-width: 3 ;" textAlignment="CENTER">
+            <Button fx:id="detection" mnemonicParsing="false" prefHeight="70.0" prefWidth="150.0" style="-fx-border-color: #5B5BF0; -fx-background-color: trans; -fx-border-radius: 33; -fx-border-width: 3 ;" textAlignment="CENTER">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
          <Separator prefWidth="200.0" style="-fx-opacity: 0;" VBox.vgrow="ALWAYS" />
-            <Button fx:id="validity" mnemonicParsing="false" prefHeight="70.0" prefWidth="150.0" style="-fx-border-color: rgb(91, 91, 240); -fx-background-color: trans; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
+            <Button fx:id="validity" mnemonicParsing="false" prefHeight="70.0" prefWidth="150.0" style="-fx-border-color: #5B5BF0; -fx-background-color: trans; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
          <Separator prefWidth="200.0" style="-fx-opacity: 0;" VBox.vgrow="ALWAYS" />
-            <Button fx:id="to_JSON" mnemonicParsing="false" prefHeight="70.0" prefWidth="150.0" style="-fx-border-color: rgb(91, 91, 240); -fx-background-color: trans; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
+            <Button fx:id="to_JSON" mnemonicParsing="false" prefHeight="70.0" prefWidth="150.0" style="-fx-border-color: #5B5BF0; -fx-background-color: trans; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
          <Separator prefWidth="200.0" style="-fx-opacity: 0;" VBox.vgrow="ALWAYS" />
-            <Button fx:id="min" mnemonicParsing="false" prefHeight="70.0" prefWidth="150.0" style="-fx-border-color: rgb(91, 91, 240); -fx-background-color: trans; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
+            <Button fx:id="min" mnemonicParsing="false" prefHeight="70.0" prefWidth="150.0" style="-fx-border-color: #5B5BF0; -fx-background-color: trans; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
          <Separator prefWidth="200.0" style="-fx-opacity: 0;" VBox.vgrow="ALWAYS" />
-            <Button fx:id="comp" mnemonicParsing="false" prefHeight="70.0" prefWidth="150.0" style="-fx-border-color: rgb(91, 91, 240); -fx-background-color: trans; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
+            <Button fx:id="comp" mnemonicParsing="false" prefHeight="70.0" prefWidth="150.0" style="-fx-border-color: #5B5BF0; -fx-background-color: trans; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
          <Separator prefWidth="200.0" style="-fx-opacity: 0;" VBox.vgrow="ALWAYS" />
-            <Button fx:id="decomp" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="70.0" prefWidth="150.0" style="-fx-border-color: rgb(91, 91, 240); -fx-background-color: trans; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
+            <Button fx:id="decomp" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="70.0" prefWidth="128.0" style="-fx-border-color: #5B5BF0; -fx-background-color: trans; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
         </VBox>
-      <Button fx:id="backButton" layoutX="1.0" layoutY="491.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="128.0" style="-fx-background-color: rgb(91, 91, 240); -fx-border-color: rgb(91, 91, 240); -fx-border-radius: 35; -fx-text-fill: white; -fx-background-radius: 35;" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="1.0">
+      <Button fx:id="backButton" layoutX="4.0" layoutY="470.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="120.0" style="-fx-background-color: #5B5BF0; -fx-border-color: #5B5BF0; -fx-border-radius: 25; -fx-text-fill: white; -fx-background-radius: 35; -fx-pref-height: 10;" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="4.0 " onAction="#ReturnToMainScene">
          <font>
             <Font name="Arial Nova" size="23.0" />
          </font>
@@ -79,7 +83,7 @@
              </font>
          </Label>
         <VBox layoutX="3.0" layoutY="22.0" prefHeight="531.0" prefWidth="549.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="22.0">
-            <TextArea fx:id="contentArea" prefHeight="530.0" prefWidth="531.0" style="-fx-background-color: trans; -fx-font-family: TRON;" VBox.vgrow="ALWAYS" />
+            <TextArea fx:id="contentArea" prefHeight="530.0" prefWidth="531.0" wrapText="true" style="-fx-background-color: trans; -fx-font-family: TRON;" VBox.vgrow="ALWAYS" />
         </VBox>
     </AnchorPane>
 </AnchorPane>

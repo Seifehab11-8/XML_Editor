@@ -2,6 +2,9 @@ package org.example.demo;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleButton;
@@ -10,11 +13,13 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Objects;
+
 
 
 public class SecondController {
@@ -56,7 +61,7 @@ public class SecondController {
     }
     @FXML
     private void initialize() {
-
+        loadFileContent();
         Platform.runLater(() -> contentArea.getScene().getRoot().requestFocus());
         setOnhover();
         Image correct = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/check.png")));
@@ -81,12 +86,13 @@ public class SecondController {
         ImageView viewJSON = new ImageView(JSON);
 
         Veiws(viewCorrection, viewdetect, viewvalidate, viewcomp);
-        Veiws(viewdecomp, viewJSON, viewback, viewmini);
+        Veiws(viewdecomp, viewJSON, viewmini, viewmini);
         viewnight.setFitWidth(20);
         viewnight.setFitHeight(20);
-
-
         viewnight.setPreserveRatio(true);
+        viewback.setFitWidth(20);
+        viewback.setFitHeight(20);
+        viewback.setPreserveRatio(true);
 
 
       correction.setGraphic(viewCorrection);
@@ -98,7 +104,7 @@ public class SecondController {
       decomp.setGraphic(viewdecomp);
       comp.setGraphic(viewcomp);
       backButton.setGraphic(viewback);
-      contentArea.setStyle("-fx-text-fill: white; -fx-font-family: 'Times New Roman'; -fx-font-size: 25");
+      contentArea.setStyle("-fx-text-fill: white; -fx-font-family: 'Times New Roman'; -fx-font-size: 25 ;-fx-border-color: rgb(91,91,240) ");
       Tooltips();
     }
 
@@ -137,5 +143,16 @@ public class SecondController {
         Tooltip.install(backButton, tooltip9);
 
 
+    }
+    @FXML
+    private void ReturnToMainScene() throws Exception{
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/hello-view.fxml")));
+        Stage stage = (Stage) backButton.getScene().getWindow();
+        stage.setWidth(stage.getWidth());
+        stage.setHeight(stage.getWidth());
+        Scene newScene= new Scene(root);
+        stage.setScene(newScene);
+
+        stage.show();
     }
 }
