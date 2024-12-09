@@ -4,18 +4,16 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-
-
-public class XMLDecompressor {
+public class JsonDecompressor {
 
     /* Method to decompress the compressed file */
-    public String decompress(String compressedXML) {
-        if (compressedXML == null || compressedXML.isEmpty()) {
+    public String decompress(String compressedJSON) {
+        if (compressedJSON == null || compressedJSON.isEmpty()) {
             throw new IllegalArgumentException("Input cannot be null or empty");
         }
 
         // Step 1: Replace short tags with full tags
-        String decompressed = replaceTags(compressedXML);
+        String decompressed = replaceTags(compressedJSON);
 
         // Step 2: Expand compressed text (e.g., a4 -> aaaa)
         decompressed = expandCompressedText(decompressed);
@@ -31,13 +29,9 @@ public class XMLDecompressor {
        with full tags
      */
     private String replaceTags(String input) {
-        String[] shortTags = {"<u>", "</u>", "<us>", "</us>", "<i>", "</i>", "<p>", "</p>",
-                              "<f>", "</f>", "<fs>", "</fs>", "<t>", "</t>", "<ts>", "</ts>",
-                              "<b>", "</b>", "<ps>", "</ps>", "<name>", "</name>"};
+    String[] shortTags = {"\"u\"", "\"us\"", "\"i\"", "\"p\"", "\"f\"", "\"fs\"", "\"t\"", "\"ts\"", "\"b\"", "\"ps\"", "\"n\""};
+    String[] fullTags = {"\"user\":", "\"users\":", "\"id\":", "\"post\":", "\"follower\":", "\"followers\":", "\"topic\":", "\"topics\":", "\"body\":", "\"posts\":", "\"name\":"};
 
-        String[] fullTags = {"<user>", "</user>", "<users>", "</users>", "<id>", "</id>", "<post>", "</post>",
-                             "<follower>", "</follower>", "<followers>", "</followers>", "<topic>", "</topic>",
-                             "<topics>", "</topics>", "<body>", "</body>", "<posts>", "</posts>", "<name>", "</name>"};
 
         for (int i = 0; i < shortTags.length; i++) {
             input = input.replace(shortTags[i], fullTags[i]);

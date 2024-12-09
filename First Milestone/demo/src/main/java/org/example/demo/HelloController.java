@@ -1,44 +1,109 @@
 package org.example.demo;
 
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
+import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.Circle;
-import javafx.scene.text.Text;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.scene.layout.VBox;
-import javafx.scene.control.TextArea;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.io.IOException;
+import javafx.util.Duration;
+
 import java.io.File;
+import java.io.IOException;
 
 public class HelloController {
-    public Text circleText;
     @FXML
-    private TextField filePathField; // This binds to the TextField in the FXML
+    public Button Start; // Start button
+    @FXML
+    public VBox fileUploadContainer;
+    public ImageView dragimige;
+    @FXML
+    private TextField filePathField; // TextField for file path
 
     @FXML
-    private Button browseButton; // This binds to the Button in the FXML
+    private Button browseButton; // Browse button
+
     @FXML
     private void initialize() {
-        // Ensure no component gets focus at startup
-        Platform.runLater(() -> {
-            filePathField.getScene().getRoot().requestFocus();
+        Platform.runLater(() -> filePathField.getScene().getRoot().requestFocus());
+
+        // Add scale transition for the browse button hover effect
+        addHoverEffect(browseButton);
+
+        // Add scale transition for the start button hover effect
+        addHoverEffect(Start);
+
+        // Set up drag-and-drop for the file path field
+        setupDragAndDrop(fileUploadContainer);
+    }
+
+    private void addHoverEffect(Button button) {
+        // Scale transition for mouse entered event
+        button.addEventHandler(MouseEvent.MOUSE_ENTERED, _ -> {
+            ScaleTransition st = new ScaleTransition(Duration.millis(200), button);
+            st.setToX(1.02); // Scale up by 2%
+            st.setToY(1.02);
+            st.play();
+        });
+
+        // Scale transition for mouse exited event
+        button.addEventHandler(MouseEvent.MOUSE_EXITED, _ -> {
+            ScaleTransition st = new ScaleTransition(Duration.millis(200), button);
+            st.setToX(1.0); // Scale back to original size
+            st.setToY(1.0);
+            st.play();
         });
     }
 
+    private void setupDragAndDrop(VBox fileUploadContainer) {
+        // Allow drag over event
+        fileUploadContainer.setOnDragOver(event -> {
+            Dragboard db = event.getDragboard();
+            if (db.hasFiles() && db.getFiles().stream().allMatch(file -> file.getName().endsWith(".xml"))) {
+                event.acceptTransferModes(TransferMode.COPY);
+            }
+            event.consume();
+        });
+
+        // Handle drop event
+        fileUploadContainer.setOnDragDropped(event -> {
+            Dragboard db = event.getDragboard();
+            boolean success = false;
+            if (db.hasFiles()) {
+                for (File file : db.getFiles()) {
+                    if (file.getName().endsWith(".xml")) {
+                        if (file.exists()) {
+                            if (file.getName().toLowerCase().endsWith(".xml")) {
+                                filePathField.setText(file.getAbsolutePath());
+                                onStartButtonClicked();
+                            } else {
+                                fileUploadContainer.getChildren().clear();
+                                TextField textField =new TextField();
+                                textField.setText("Not an XML File");
+                            }
+                        }
+                    }
+                }
+            }
+            event.setDropCompleted(success);
+            event.consume();
+        });
+    }
 
     @FXML
     public void onBrowseButtonClicked() {
         FileChooser fileChooser = new FileChooser();
         // Optionally add filters for the file types you want to allow
-        //fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
 
         // Show the file chooser dialog
         File selectedFile = fileChooser.showOpenDialog(browseButton.getScene().getWindow());
@@ -48,35 +113,22 @@ public class HelloController {
             filePathField.setText(selectedFile.getAbsolutePath());
         }
     }
+
     @FXML
     public void onStartButtonClicked() {
         try {
-            // Get the file path from TextField
-            String filePath = filePathField.getText();
-
-            // Read the content of the file
-            String content = new String(Files.readAllBytes(Paths.get(filePath)));
-
-            TextArea textArea = new TextArea();
-            textArea.setText(content);
-            textArea.setWrapText(true);
-            textArea.setPrefRowCount(50);
-            textArea.setPrefColumnCount(50);
-
-            // Create a new scene
-            Scene secondScene = new Scene(new VBox(textArea), 800, 800);
-
-            // Create a new stage (window)
-            Stage newWindow = new Stage();
-            newWindow.setTitle("XML Content");
-            newWindow.setScene(secondScene);
-
-            // Show the window
-            newWindow.show();
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloController.class.getResource("/second-scene.fxml"));
+            Parent root = fxmlLoader.load();
+            SecondController secondController = fxmlLoader.getController();
+            secondController.SetFilePath(filePathField.getText());
+            Stage stage = (Stage) Start.getScene().getWindow();
+            stage.setWidth(stage.getWidth());
+            stage.setHeight(stage.getHeight());
+            stage.setScene(new Scene(root));
+            stage.show();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 }
