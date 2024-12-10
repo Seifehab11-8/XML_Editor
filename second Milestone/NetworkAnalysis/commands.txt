@@ -1,0 +1,8 @@
+javac *.java
+java networkanalysis.xml_editor most_active -i input_file.xml
+java networkanalysis.xml_editor most_influencer -i input_file.xml
+java networkanalysis.xml_editor mutual -i input_file.xml -ids 1,2,3
+java networkanalysis.xml_editor mutual -i input_file.xml -ids 2,3
+java networkanalysis.xml_editor suggest -i input_file.xml -id 1
+java networkanalysis.xml_editor suggest -i input_file.xml -id 2
+java networkanalysis.xml_editor suggest -i input_file.xml -id 3

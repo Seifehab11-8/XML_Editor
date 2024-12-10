@@ -1,13 +1,19 @@
 <users>
+    <!-- This section contains user information -->
     <user>
+        <!-- Unique ID for the user -->
         <id>1</id>
+        <!-- Name of the user -->
         <name>Ahmed Ali</name>
         <posts>
+            <!-- Posts made by the user -->
             <post>
+                <!-- Content of the post -->
                 <body>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                 </body>
                 <topics>
+                    <!-- Topics associated with the post -->
                     <topic>
                         economy
                     </topic>
@@ -28,7 +34,9 @@
             </post>
         </posts>
         <followers>
+            <!-- Followers of the user -->
             <follower>
+                <!-- ID of the follower -->
                 <id>2</id>
             </follower>
             <follower>

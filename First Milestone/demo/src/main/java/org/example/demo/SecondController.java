@@ -2,20 +2,20 @@ package org.example.demo;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Tooltip;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Objects;
-
 
 public class SecondController {
     public Button correction;
@@ -26,116 +26,118 @@ public class SecondController {
     public Button comp;
     public Button decomp;
     public Button backButton;
+    public AnchorPane MainAnchorPane;
     private String filePath;
-    public void SetFilePath(String filePath){
-         this.filePath= filePath;
-         loadFileContent();
-
-    }
     @FXML TextArea contentArea;
-    @FXML ToggleButton NightMode;
+    private final String[] tooltipsText = {
+            "Click to correct the current input or selection",
+            "Click to detect errors or anomalies",
+            "Validate the input data for accuracy",
+            "Convert the current data to a JSON format",
+            "Minimize Your XML file",
+            "Decompress the selected file or data",
+            "Compress the selected file or data",
+            "Go back to the previous screen"
+    };
 
-    private void loadFileContent(){
+    Button[] buttonsList;
+
+    @FXML
+    private void initialize() {
+        buttonsList = new Button[]{correction, detection, validity, to_JSON, min, decomp, comp, backButton};
+        SetFilePath(null); // Assuming filePath is set before
+        Platform.runLater(() -> contentArea.getScene().getRoot().requestFocus());
+        loadIcons();
+        applyTooltips();
+        styleContentArea();
+    }
+
+    public void SetFilePath(String filePath) {
+        this.filePath = filePath;
+        loadFileContent();
+    }
+
+    private void loadFileContent() {
         if (filePath != null) {
             try {
                 String content = new String(Files.readAllBytes(Paths.get(filePath)));
                 contentArea.setText(content);
             } catch (IOException e) {
-                contentArea.setText(STR."Error loading file: \{e.getMessage()}");
+                contentArea.setPromptText(STR."Error loading file: \{e.getMessage()}");
             }
         }
     }
 
-    @FXML private void setOnhover(){
-        DropShadow shadow = new DropShadow();
-        NightMode.addEventHandler(MouseEvent.MOUSE_ENTERED,
-                _ -> NightMode.setEffect(shadow));
-        NightMode.addEventHandler(MouseEvent.MOUSE_EXITED,
-                _ -> NightMode.setEffect(null));
+    private void loadIcons() {
+        Image correct = loadImage("/icons/check.png");
+        Image detect = loadImage("/icons/detection.png");
+        Image validate = loadImage("/icons/validation.png");
+        Image compress = loadImage("/icons/compression.png");
+        Image decompress = loadImage("/icons/download (1).png");
+        Image back = loadImage("/icons/left_arrow.png");
+        Image mini = loadImage("/icons/minimize.png");
+        Image JSON = loadImage("/icons/file.png");
 
+        ImageView[] iconViews = {
+                createImageView(correct,50,50),
+                createImageView(detect,50,50),
+                createImageView(validate,50,50),
+                createImageView(compress,50,50),
+                createImageView(decompress,50,50),
+                createImageView(back,20,20),
+                createImageView(mini,50,50),
+                createImageView(JSON,50,50)
+        };
+
+        setButtonIcons(iconViews);
     }
+
+    private Image loadImage(String path) {
+        return new Image(Objects.requireNonNull(getClass().getResourceAsStream(path)));
+    }
+
+    private ImageView createImageView(Image image,double width,double height ) {
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(width);
+        imageView.setFitHeight(height);
+        imageView.setPreserveRatio(true);
+        return imageView;
+    }
+
+    private void setButtonIcons(ImageView[] iconViews) {
+        correction.setGraphic(iconViews[0]);
+        detection.setGraphic(iconViews[1]);
+        validity.setGraphic(iconViews[2]);
+        to_JSON.setGraphic(iconViews[7]);
+        min.setGraphic(iconViews[6]);
+        decomp.setGraphic(iconViews[4]);
+        comp.setGraphic(iconViews[3]);
+        backButton.setGraphic(iconViews[5]);
+    }
+
+    private void applyTooltips() {
+        for (int i = 0; i < tooltipsText.length; i++) {
+            setTooltip(buttonsList[i], tooltipsText[i]);
+        }
+    }
+
+    private void setTooltip(Button button, String text) {
+        Tooltip tooltip = new Tooltip(text);
+        Tooltip.install(button, tooltip);
+    }
+
+    private void styleContentArea() {
+        contentArea.setStyle("-fx-text-fill: white; -fx-font-family: 'Times New Roman'; -fx-font-size: 25; -fx-border-color: rgb(91,91,240)");
+    }
+
     @FXML
-    private void initialize() {
-
-        Platform.runLater(() -> contentArea.getScene().getRoot().requestFocus());
-        setOnhover();
-        Image correct = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/check.png")));
-        Image detect = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/detection.png")));
-        Image validate = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/validation.png")));
-        Image compress = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/compression.png")));
-        Image decompress = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/download (1).png")));
-        Image night = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/night_mode.png")));
-        Image back = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/left_arrow.png")));
-        Image mini = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/minimize.png")));
-        Image JSON = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/file.png")));
-
-
-        ImageView viewCorrection = new ImageView(correct);
-        ImageView viewdetect = new ImageView(detect);
-        ImageView viewvalidate = new ImageView(validate);
-        ImageView viewcomp= new ImageView(compress);
-        ImageView viewdecomp = new ImageView(decompress);
-        ImageView viewnight = new ImageView(night);
-        ImageView viewback = new ImageView(back);
-        ImageView viewmini = new ImageView(mini);
-        ImageView viewJSON = new ImageView(JSON);
-
-        Veiws(viewCorrection, viewdetect, viewvalidate, viewcomp);
-        Veiws(viewdecomp, viewJSON, viewback, viewmini);
-        viewnight.setFitWidth(20);
-        viewnight.setFitHeight(20);
-
-
-        viewnight.setPreserveRatio(true);
-
-
-      correction.setGraphic(viewCorrection);
-      detection.setGraphic(viewdetect);
-      validity.setGraphic(viewvalidate);
-      to_JSON.setGraphic(viewJSON);
-      min.setGraphic(viewmini);
-      NightMode.setGraphic(viewnight);
-      decomp.setGraphic(viewdecomp);
-      comp.setGraphic(viewcomp);
-      backButton.setGraphic(viewback);
-      contentArea.setStyle("-fx-text-fill: white; -fx-font-family: 'Times New Roman'; -fx-font-size: 25");
-      Tooltips();
-    }
-
-    private void Veiws(ImageView viewdecomp, ImageView viewJSON, ImageView viewback, ImageView viewmini) {
-        viewdecomp.setFitWidth(50);
-        viewdecomp.setFitHeight(50);
-        viewdecomp.setPreserveRatio(true);
-        viewJSON.setFitWidth(50);
-        viewJSON.setFitHeight(50);
-        viewJSON.setPreserveRatio(true);
-        viewback.setFitWidth(50);
-        viewback.setFitHeight(50);
-        viewback.setPreserveRatio(true);
-        viewmini.setFitWidth(50);
-        viewmini.setFitHeight(50);
-        viewmini.setPreserveRatio(true);
-    }
-    private void Tooltips(){
-        Tooltip tooltip1 = new Tooltip("Click to correct the current input or selection");
-        Tooltip tooltip2 = new Tooltip("Click to detect errors or anomalies");
-        Tooltip tooltip3 = new Tooltip("Validate the input data for accuracy");
-        Tooltip tooltip4 = new Tooltip("Convert the current data to a JSON format");
-        Tooltip tooltip5 = new Tooltip("Minimize Your XML file");
-        Tooltip tooltip6 = new Tooltip("Toggle night mode for a darker theme");
-        Tooltip tooltip7 = new Tooltip("Decompress the selected file or data");
-        Tooltip tooltip8 = new Tooltip("Compress the selected file or data");
-        Tooltip tooltip9 = new Tooltip("Go back to the previous screen");
-        Tooltip.install(correction, tooltip1);
-        Tooltip.install(detection, tooltip2);
-        Tooltip.install(validity, tooltip3);
-        Tooltip.install(to_JSON, tooltip4);
-        Tooltip.install(min, tooltip5);
-        Tooltip.install(NightMode, tooltip6);
-        Tooltip.install(decomp, tooltip7);
-        Tooltip.install(comp, tooltip8);
-        Tooltip.install(backButton, tooltip9);
-
-
+    private void ReturnToMainScene() throws Exception {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/hello-view.fxml")));
+        Stage stage = (Stage) backButton.getScene().getWindow();
+        stage.setWidth(stage.getWidth());
+        stage.setHeight(stage.getWidth());
+        Scene newScene = new Scene(root);
+        stage.setScene(newScene);
+        stage.show();
     }
 }
