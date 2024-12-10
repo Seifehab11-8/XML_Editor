@@ -10,22 +10,27 @@ public class HelloWorld {
         return ind;
     }
     public static void main(String[] args) {
+        if(!args[0].equals("prettify")){
+            System.out.println("Only prettify is supported!");
+            return;
+        }
+        System.out.println("Requested prettifying!"+args[0]);
+        System.out.println(args[1]);
         Stack<String> stack = new Stack<>();
-        File file = new File("sample.txt");
+        File file = new File(args[1]);
         String out = "";
         int depth = 0;
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                if(line.matches("^<(\\p{Alnum}+)>$")){
+                if(line.matches("^\\s*<(\\p{Alnum}+)>$")){
                     String key = line.replaceAll("(<?>?)", "");
                     stack.push(key);
                     out+=indent(depth)+line+"\n";
-                    System.out.println(indent(depth)+line);
                     depth++;
 
                 }
-                else if(line.matches("^</(\\p{Alnum}+)>$")){
+                else if(line.matches("^\\s*</(\\p{Alnum}+)>$")){
                     String key = line.replaceAll("(<?>?)", "");
                     depth--;
                     if(stack.peek()==key){
@@ -33,10 +38,9 @@ public class HelloWorld {
                     }else{
                     }
                     out+=indent(depth)+line+"\n";
-                    System.out.println(indent(depth)+line);
 
                 }
-                else if(line.matches("<(\\p{Alnum}+)>\\p{ASCII}*<(/\\1)>")){
+                else if(line.matches("^\\s*<(\\p{Alnum}+)>\\p{ASCII}*<(/\\1)>")){
                     String indent = indent(depth);
                     String indentplus = indent+"\t";
                     line = line.replaceAll("<(\\p{Alnum}+)>(\\p{ASCII}*)</\\1>","<$1>\n"+indentplus+"$2\n"+indent+"<$1>");
