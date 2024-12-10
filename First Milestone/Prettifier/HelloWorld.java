@@ -1,14 +1,3 @@
-// File: HelloWorld.java
-/*Packages: If you are writing a more complex application, organize your files into packages. For example:
-
-package com.example.project;
-
-Save the file in a directory structure like com/example/project/.
-// Package declaration (optional, only if needed)
-*/
-//package com.example;
-
-// Import statements (if needed)
 import java.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,7 +11,6 @@ public class HelloWorld {
         }
         return ind;
     }
-    // Main method - the entry point of the program
     public static void main(String[] args) {
         Stack<String> stack = new Stack<>();
         File file = new File("sample.txt");
@@ -39,7 +27,7 @@ public class HelloWorld {
                     String key = line.replaceAll("(<?>?)", "");
                     //System.out.println("start : "+ key);
                     stack.push(key);
-                    //out+=indent(depth)+line+"\n";
+                    out+=indent(depth)+line+"\n";
                     System.out.println(indent(depth)+line);
                     depth++;
 
@@ -54,24 +42,22 @@ public class HelloWorld {
                     }else{
                         //System.out.println("Not equal");
                     }
-                    //out+=indent(depth)+line+"\n";
+                    out+=indent(depth)+line+"\n";
                     System.out.println(indent(depth)+line);
 
                 }
                 else if(line.matches("<(\\p{Alnum}+)>\\p{ASCII}*<(/\\1)>")){
-                    //System.out.println("Double : " + line);
-                    //depth++;
-                    String indentplus = indent(depth)+"\t";
-                    //out+=indent(depth)+line+"\n";
-                    line = line.replaceAll("<(\\p{Alnum}+)>(\\p{ASCII}*)</\\1>","\t<$1>\n\t"+indentplus+"\t$2\n"+indentplus+"<$1>\n");
-                    System.out.println(indent(depth)+line);
+                    String indent = indent(depth);
+                    String indentplus = indent+"\t";//indent(depth)+"\t";
+                    line = line.replaceAll("<(\\p{Alnum}+)>(\\p{ASCII}*)</\\1>","<$1>\n"+indentplus+"$2\n"+indent+"<$1>");
+                    out+=indent+line+"\n";
                 }
-                //System.out.print(out);
             }
+            System.out.println("-----------------");
+            System.out.print(out);
 
         } catch (FileNotFoundException e) {
             System.err.println("File not found: " + e.getMessage());
         }
-        System.out.println(stack.peek()); // This prints "Hello, World!" to the console
     }
 }
