@@ -68,9 +68,6 @@ public class xml_editor {
             for (int i = 0; i < keys_str.length; i++) {
                 keys.add(getKeyById(graph, keys_str[i]));
             }
-            for (String key : keys) {
-                System.out.println(key);
-            }
             Users = XMLMutualFollowers.MutualFollowers(graph, keys);
             if (Users.isEmpty()) {
                 System.out.println("No Mutual followers between given ids");
