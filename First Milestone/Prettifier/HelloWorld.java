@@ -1,19 +1,6 @@
-// File: HelloWorld.java
-/*Packages: If you are writing a more complex application, organize your files into packages. For example:
-
-package com.example.project;
-
-Save the file in a directory structure like com/example/project/.
-// Package declaration (optional, only if needed)
-*/
-//package com.example;
-
-// Import statements (if needed)
 import java.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-
-// Main class
 public class HelloWorld {
     static String indent(int num){
         String ind = "";
@@ -22,56 +9,49 @@ public class HelloWorld {
         }
         return ind;
     }
-    // Main method - the entry point of the program
     public static void main(String[] args) {
+        if(!args[0].equals("prettify")){
+            System.out.println("Only prettify is supported!");
+            return;
+        }
+        System.out.println("Requested prettifying!"+args[0]);
+        System.out.println(args[1]);
         Stack<String> stack = new Stack<>();
-        File file = new File("sample.txt");
+        File file = new File(args[1]);
         String out = "";
         int depth = 0;
         try (Scanner scanner = new Scanner(file)) {
-            // Read the file line by line
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                //System.out.println(line[1:line.length()-1]);
-                //stack.push(line);
-                //line = line.replaceAll("ro+t", "toor");
-                if(line.matches("^<(\\p{Alnum}+)>$")){
+                if(line.matches("^\\s*<(\\p{Alnum}+)>$")){
                     String key = line.replaceAll("(<?>?)", "");
-                    //System.out.println("start : "+ key);
                     stack.push(key);
-                    //out+=indent(depth)+line+"\n";
-                    System.out.println(indent(depth)+line);
+                    out+=indent(depth)+line+"\n";
                     depth++;
 
                 }
-                else if(line.matches("^</(\\p{Alnum}+)>$")){
+                else if(line.matches("^\\s*</(\\p{Alnum}+)>$")){
                     String key = line.replaceAll("(<?>?)", "");
-                    //System.out.println("end : "+key);
                     depth--;
                     if(stack.peek()==key){
-                        //System.out.println("indeed they are equal");
                         stack.pop();
                     }else{
-                        //System.out.println("Not equal");
                     }
-                    //out+=indent(depth)+line+"\n";
-                    System.out.println(indent(depth)+line);
+                    out+=indent(depth)+line+"\n";
 
                 }
-                else if(line.matches("<(\\p{Alnum}+)>\\p{ASCII}*<(/\\1)>")){
-                    //System.out.println("Double : " + line);
-                    //depth++;
-                    String indentplus = indent(depth)+"\t";
-                    //out+=indent(depth)+line+"\n";
-                    line = line.replaceAll("<(\\p{Alnum}+)>(\\p{ASCII}*)</\\1>","\t<$1>\n\t"+indentplus+"\t$2\n"+indentplus+"<$1>\n");
-                    System.out.println(indent(depth)+line);
+                else if(line.matches("^\\s*<(\\p{Alnum}+)>\\p{ASCII}*<(/\\1)>")){
+                    String indent = indent(depth);
+                    String indentplus = indent+"\t";
+                    line = line.replaceAll("<(\\p{Alnum}+)>(\\p{ASCII}*)</\\1>","<$1>\n"+indentplus+"$2\n"+indent+"<$1>");
+                    out+=indent+line+"\n";
                 }
-                //System.out.print(out);
             }
+            System.out.println("-----------------");
+            System.out.print(out);
 
         } catch (FileNotFoundException e) {
             System.err.println("File not found: " + e.getMessage());
         }
-        System.out.println(stack.peek()); // This prints "Hello, World!" to the console
     }
 }
