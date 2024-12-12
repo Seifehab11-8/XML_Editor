@@ -1,6 +1,6 @@
-
 import java.io.*;
 import java.util.*;
+
 public class XMLCorrection {
 
     // Method to correct the XML file
@@ -20,32 +20,31 @@ public class XMLCorrection {
                     int end = line.indexOf(">", start);
 
                     if (end == -1) {
-                        throw new IllegalArgumentException("Invalid XML: Missing closing '>'");
+                        System.out.println("Error: Missing closing '>' in line: " + line);
+                        line = line.substring(0, start); // Remove invalid tag
+                        break;
                     }
-
-                    String tag = line.substring(start + 1, end).trim();
-                    line = line.substring(end + 1); // Move to the rest of the line
 
                     correctedXML.append(line, 0, start); // Append content before the tag
-                    correctedXML.append("<").append(tag).append(">");
+                    String tag = line.substring(start + 1, end).trim();
+                    line = line.substring(end + 1); // Remaining part of the line
 
-                    // Handle closing tags
-                    if (tag.startsWith("/")) {
-                        String tagName = tag.substring(1); // Remove '/'
-                        if (tagStack.isEmpty() || !tagStack.peek().equals(tagName)) {
-                            // Fix mismatched or missing closing tag
-                            correctedXML.append("</").append(tagStack.pop()).append(">");
+                    if (tag.startsWith("/")) { // Closing tag
+                        String tagName = tag.substring(1);
+                        if (!tagStack.isEmpty() && tagStack.peek().equals(tagName)) {
+                            correctedXML.append("<").append(tag).append(">");
+                            tagStack.pop(); // Correctly matched
                         } else {
-                            tagStack.pop();
+                            System.out.println("Error: Mismatched closing tag </" + tagName + ">");
+                            // Skip mismatched tag
                         }
-                    }
-                    // Handle opening tags
-                    else if (!tag.endsWith("/")) { // Ignore self-closing tags
+                    } else if (!tag.endsWith("/")) { // Opening tag (ignore self-closing)
+                        correctedXML.append("<").append(tag).append(">");
                         tagStack.push(tag);
                     }
                 }
 
-                correctedXML.append(line); // Append remaining line content
+                correctedXML.append(line); // Append any remaining line content
             }
         } catch (IOException e) {
             System.out.println("Error reading the file: " + e.getMessage());
@@ -58,4 +57,4 @@ public class XMLCorrection {
 
         return correctedXML.toString();
     }
-}
+
