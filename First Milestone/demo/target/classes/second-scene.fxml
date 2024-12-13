@@ -13,9 +13,9 @@
     <AnchorPane layoutY="5.0" prefHeight="449.0" prefWidth="128.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="9.0">
     </AnchorPane>
     <AnchorPane layoutX="3.0" layoutY="10.0" prefHeight="554.0" prefWidth="128.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="3.0" AnchorPane.topAnchor="10.0">
-        <VBox layoutY="39.0" prefHeight="429.0" prefWidth="128.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox layoutY="39.0" prefHeight="484.0" prefWidth="128.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <Separator prefHeight="15.0" prefWidth="128.0" style="-fx-opacity: 0;" VBox.vgrow="ALWAYS" />
-            <Button fx:id="correction" mnemonicParsing="false" prefHeight="70.0" prefWidth="150.0" style="-fx-border-color: #5B5BF0; -fx-background-color: transparent; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
+            <Button fx:id="correction" onAction="#CallCorrection" mnemonicParsing="false" prefHeight="70.0" prefWidth="150.0" style="-fx-border-color: #5B5BF0; -fx-background-color: transparent; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
@@ -27,19 +27,19 @@
                 </cursor>
             </Button>
          <Separator prefWidth="200.0" style="-fx-opacity: 0;" VBox.vgrow="ALWAYS" />
-            <Button fx:id="validity" mnemonicParsing="false" prefHeight="70.0" prefWidth="150.0" style="-fx-border-color: #5B5BF0; -fx-background-color: transparent; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
+            <Button fx:id="validity" onAction="#CallValidator" mnemonicParsing="false" prefHeight="70.0" prefWidth="150.0" style="-fx-border-color: #5B5BF0; -fx-background-color: transparent; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
          <Separator prefWidth="200.0" style="-fx-opacity: 0;" VBox.vgrow="ALWAYS" />
-            <Button fx:id="to_JSON" mnemonicParsing="false" prefHeight="70.0" prefWidth="150.0" style="-fx-border-color: #5B5BF0; -fx-background-color: transparent; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
+            <Button fx:id="to_JSON" onAction="#CallJSON" mnemonicParsing="false" prefHeight="70.0" prefWidth="150.0" style="-fx-border-color: #5B5BF0; -fx-background-color: transparent; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
          <Separator prefWidth="200.0" style="-fx-opacity: 0;" VBox.vgrow="ALWAYS" />
-            <Button fx:id="min" mnemonicParsing="false" prefHeight="70.0" prefWidth="150.0" style="-fx-border-color: #5B5BF0; -fx-background-color: transparent; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
+            <Button fx:id="min" mnemonicParsing="false" prefHeight="70.0" prefWidth="150.0" onAction="#CallMinifier" style="-fx-border-color: #5B5BF0; -fx-background-color: transparent; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
@@ -56,6 +56,18 @@
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
+         <Separator prefWidth="200.0" style="-fx-opacity: 0;" />
+         <Button fx:id="NetworkAnalysis" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="70.0" prefWidth="128.0" style="-fx-border-color: #5B5BF0; -fx-background-color: transparent; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
+            <cursor>
+               <Cursor fx:constant="HAND" />
+            </cursor>
+         </Button>
+        <Separator prefWidth="200.0" style="-fx-opacity: 0;" />
+        <Button fx:id="Graph" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="70.0" prefWidth="128.0" style="-fx-border-color: #5B5BF0; -fx-background-color: transparent; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
         </VBox>
       <Button fx:id="backButton" layoutX="4.0" layoutY="470.0" mnemonicParsing="false" onAction="#ReturnToMainScene" prefHeight="40.0" prefWidth="120.0" style="-fx-background-color: #5B5BF0; -fx-border-color: #5B5BF0; -fx-border-radius: 25; -fx-text-fill: white; -fx-background-radius: 35; -fx-pref-height: 10;" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="4.0 ">
          <font>
