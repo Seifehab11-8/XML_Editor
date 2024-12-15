@@ -1,0 +1,42 @@
+<users>
+    <user>
+        <id>6</id>
+        <name>Fiona Green</name>
+        <posts>
+            <post>
+                <text>Exploring the city skyline.</text>
+                <topics>
+                    <topic>Photography</topic>
+                    <topic>Urban</topic>
+                </topics>
+            </post>
+            <post>
+                <text>Participating in a community cleanup event.</text>
+                <topics>
+                    <topic>Environment</topic>
+                    <topic>Community</topic>
+                </topics>
+            </post>
+        </posts>
+    </user>
+    <user>
+        <id>7</id>
+        <name>George White</name>
+        <posts>
+            <post>
+                <text>Learning to play the guitar.</text>
+                <topics>
+                    <topic>Music</topic>
+                    <topic>Instruments</topic>
+                </topics>
+            </post>
+            <post>
+                <text>Planning a weekend getaway with friends.</text>
+                <topics>
+                    <topic>Weekend</topic>
+                    <topic>Friends</topic>
+                </topics>
+            </post>
+        </posts>
+    </user>
+</users>
