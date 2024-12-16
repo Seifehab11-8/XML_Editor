@@ -6,13 +6,22 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class Compression {
 	private List<String> bufferList;
+	private HashMap<String, Character> KeysToTokens;
+	private HashMap<String, Integer> tokenCounts; // for json file
+	private char randomChar = 'A';
+	private char jsonRandChar = '0';
 	
 	Compression(){
 		bufferList = new ArrayList<>();
+		KeysToTokens = new HashMap<>();
+		tokenCounts = new HashMap<>();
 	} // default constructor
 	
 	boolean processFile(String path) //stores all the data inside the XML file inside a queue
@@ -28,6 +37,7 @@ public class Compression {
 				buff = b_reader.readLine();
 			}
 		} catch (IOException e) {
+			System.out.println("File not found");
 			return false;
 		}
 		return true;
@@ -55,58 +65,30 @@ public class Compression {
 	private String xmlTokenizer(String next)
 	{
 		StringBuilder sb = new StringBuilder();
+		StringBuilder token = new StringBuilder();
 		int i = 0;
-		int duplicateCounter = 1;
 		while(i < next.length())
 		{
-			if(next.charAt(i) == '<' && next.charAt(i + 1) == '/')
-			{
-				sb.append('<');
-				sb.append(next.charAt(i+1));
-				sb.append(next.charAt(i+2));
-				i = i + 2;
-				while(next.charAt(i) != '>') i++;
-				
-				if(next.charAt(i - 1) == 's')
-				{
-					sb.append(next.charAt(i-1));
-				}
-				sb.append('>');
-			}
-			else if(next.charAt(i) == '<')
-			{
-				sb.append('<');
-				sb.append(next.charAt(i+1));
-				i = i + 1;
-				while(next.charAt(i) != '>') i++;
-				
-				if(next.charAt(i - 1) == 's')
-				{
-					sb.append(next.charAt(i-1));
-				}
-				sb.append('>');
-			}
-			else
-			{
-				while(i < next.length() - 1)
-				{
-					if(next.charAt(i) == next.charAt(i+1))
-						duplicateCounter++;
-					else
-					{
-						sb.append(next.charAt(i));
-						if(duplicateCounter != 1)
-							sb.append(duplicateCounter);
-						duplicateCounter = 1;
-					}
-						
-					if(next.charAt(i+1) == '<')break;
+			if(next.charAt(i) == '<') {
+				token.delete(0, token.length());//make sure the builder is empty
+				while(i < next.length()) {
+					token.append(next.charAt(i));
+					if(next.charAt(i) == '>')break;
 					i++;
 				}
-				if(i == next.length() - 1)
-					sb.append(next.charAt(i));	
+				
+				if(!KeysToTokens.containsKey(token.toString())) {
+					KeysToTokens.put(token.toString(), randomChar);
+					sb.append(randomChar);
+					randomChar++;
+				}
+				else {
+					sb.append(KeysToTokens.get(token.toString()));
+				}
 			}
-			
+			else {
+				sb.append(next.charAt(i));
+			}
 			i++;
 		}
 		return sb.toString();
@@ -115,7 +97,8 @@ public class Compression {
 	boolean createCompressedFile(String type)
 	{
 		String filePath = String.format("./output%s.comp", type);
- 
+		String KeyPath = String.format("./KeyFile%s.comp", type);
+		boolean typeCheck = ("XML").equals(type);
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) { 
 			for (String line : bufferList)	
 			{ 
@@ -127,7 +110,25 @@ public class Compression {
 			return false;
 		}
 		
+		try (BufferedWriter keyWriter = new BufferedWriter(new FileWriter(KeyPath))) { 
+			for (Entry<String, Character> entry : KeysToTokens.entrySet()) 
+			{ 
+				if(typeCheck) {
+					keyWriter.write("<" + entry.getValue()+ entry.getKey()); 
+				}
+				else {
+					keyWriter.write("'" + entry.getValue()+ entry.getKey()); 
+				}
+				keyWriter.newLine(); 
+				System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+			}
+		}catch (IOException e) { 
+			return false;
+		}
+		
 		bufferList.removeAll(bufferList);
+		KeysToTokens.clear();
+		randomChar = 'A';
 		return true;
 	}
 
@@ -148,9 +149,7 @@ public class Compression {
 			return false;
 		
 	}
-	
-	boolean compressJSON(String jsonPath)
-	{
+	boolean compressJSON(String jsonPath) {
 		int counter = 0;
 		if(processFile(jsonPath))
 		{
@@ -159,63 +158,126 @@ public class Compression {
 				bufferList.set(counter, jsonTokenizer(removeSpace(str)));
 				counter++;
 			}
+			
 			return createCompressedFile("JSON");
 		}
 		else
 			return false;
 	}
 	
-	private String jsonTokenizer(String next) {
-		StringBuilder sb = new StringBuilder();
-		int r = 0, tokenFlag = 0;
-		int duplicateCounter = 1;
-		
-		while(r < next.length()) 
-		{
-			if(next.charAt(r) == ':')
-			{
-				tokenFlag = 1;
-			}
-			r++;
-		}
-		r = 0;
-		while(r < next.length()) {
-			if(tokenFlag == 0){
-				
-				while(r < next.length() - 1)
-				{
-					if(next.charAt(r) == next.charAt(r+1))
-						duplicateCounter++;
-					else
-					{
-						sb.append(next.charAt(r));
-						if(duplicateCounter != 1)
-							sb.append(duplicateCounter);
-						duplicateCounter = 1;
-					}
 	
-					r++;
-				}
-				if(r == next.length() - 1)
-					sb.append(next.charAt(r));	
+	private String jsonTokenizer(String next) {
+	    StringBuilder sb = new StringBuilder();
+	    StringBuilder token = new StringBuilder();
+	    int i = 0, j = 0;
+	    boolean tokenDetected = false;
+	    while (i < next.length()) {
+	        if (next.charAt(i) == '"') {
+	            token.setLength(0); // Clear the token builder
+	            token.append(next.charAt(i));
+	            j = i + 1;
+
+	            // Gather the token until the closing quote
+	            while (j < next.length() && next.charAt(j) != '"') {
+	                token.append(next.charAt(j));
+	                j++;
+	            }
+
+	            // Append the closing quote if found
+	            if (j < next.length()) {
+	                token.append(next.charAt(j));
+	                j++;
+	            }
+
+	            // Check for a colon following the token
+	            if (j < next.length() && next.charAt(j) == ':') {
+	                tokenDetected = true;
+	                j++;
+	            }
+
+	            // Handle token replacement
+	            if (tokenDetected) {
+	                if (!KeysToTokens.containsKey(token.toString())) {
+	                    KeysToTokens.put(token.toString(), randomChar);
+	                    sb.append(randomChar);
+	                    randomChar++;
+	                } else {
+	                    sb.append(KeysToTokens.get(token.toString()));
+	                }
+	                i = j; // Move the main index to continue after the token
+	            } else {
+	                sb.append(token);
+	                i = j; // Move the main index to continue after the token
+	            }
+	            tokenDetected = false;
+	        } else {
+	            sb.append(next.charAt(i));
+	            i++;
+	        }
+	    }
+	    return sb.toString();
+	}
+
+
+
+	boolean compressJSONBytePair(String jsonPath)
+	{
+		if(processFile(jsonPath))
+		{
+			for(String str : bufferList)
+			{
+				jsonBytePairEncoder(removeSpace(str));
 			}
-			else {
-				sb.append('"');
-				sb.append(next.charAt(r+1));
-				r++;
-				while(next.charAt(r) != ':') r++;
+			
+			for (Map.Entry<String, Integer> entry : tokenCounts.entrySet()) 
+			{ 
+				KeysToTokens.put(entry.getKey(), jsonRandChar);
+				jsonRandChar++;
 				
-				if(next.charAt(r - 2) == 's')
-				{
-					sb.append(next.charAt(r-2));
-				}
-				sb.append('"');
+				if(jsonRandChar > 250)break;
 			}
-			tokenFlag = 0;
-			r++;
+			
+			replaceAllSubstrings(bufferList, KeysToTokens);
+			return createCompressedFile("JSON");
 		}
-		
-		return sb.toString();
+		else
+			return false;
+	}
+	public void replaceAllSubstrings(List<String> bufferList2, Map<String, Character> replacements) {
+	    for (int i = 0; i < bufferList2.size(); i++) {
+	        String currentString = bufferList2.get(i);
+	        for (Map.Entry<String, Character> entry : replacements.entrySet()) {
+	        	//System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+	            currentString = currentString.replace(entry.getKey(), entry.getValue().toString());
+	        }
+	        bufferList2.set(i, currentString);
+	    }
+	}
+
+
+	public void jsonBytePairEncoder(String next) {
+		StringBuilder sb = new StringBuilder();
+		int i = 0, value;
+		while(i < next.length()) {
+			sb.append(next.charAt(i));
+			
+			if(sb.length() == 2) {
+				if(tokenCounts.containsKey(sb.toString())) {
+					value = tokenCounts.get(sb.toString()) + 1;
+					tokenCounts.put(sb.toString(), value);
+				}
+				else {
+					tokenCounts.put(sb.toString(), 1);
+				}
+				sb.delete(0, sb.length());
+			}
+			i++;
+		}
+	}
+	
+	
+	public HashMap<String, Integer> getTokenCounts() {
+		return tokenCounts;
 	}
 
 	List<String> getBufferedList()
