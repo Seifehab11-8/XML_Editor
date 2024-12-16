@@ -79,10 +79,12 @@ public class Compression {
 				
 				if(!KeysToTokens.containsKey(token.toString())) {
 					KeysToTokens.put(token.toString(), randomChar);
+					sb.append('<');
 					sb.append(randomChar);
 					randomChar++;
 				}
 				else {
+					sb.append('<');
 					sb.append(KeysToTokens.get(token.toString()));
 				}
 			}
@@ -199,9 +201,11 @@ public class Compression {
 	            if (tokenDetected) {
 	                if (!KeysToTokens.containsKey(token.toString())) {
 	                    KeysToTokens.put(token.toString(), randomChar);
+	                    sb.append('\'');
 	                    sb.append(randomChar);
 	                    randomChar++;
 	                } else {
+	                	sb.append('\'');
 	                    sb.append(KeysToTokens.get(token.toString()));
 	                }
 	                i = j; // Move the main index to continue after the token
