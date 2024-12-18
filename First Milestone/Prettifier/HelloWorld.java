@@ -16,7 +16,6 @@ public class HelloWorld {
         }
         System.out.println("Requested prettifying!"+args[0]);
         System.out.println(args[1]);
-        Stack<String> stack = new Stack<>();
         File file = new File(args[1]);
         String out = "";
         int depth = 0;
@@ -25,7 +24,6 @@ public class HelloWorld {
                 String line = scanner.nextLine();
                 if(line.matches("^\\s*<(\\p{Alnum}+)>$")){
                     String key = line.replaceAll("(<?>?)", "");
-                    stack.push(key);
                     out+=indent(depth)+line+"\n";
                     depth++;
 
@@ -33,10 +31,6 @@ public class HelloWorld {
                 else if(line.matches("^\\s*</(\\p{Alnum}+)>$")){
                     String key = line.replaceAll("(<?>?)", "");
                     depth--;
-                    if(stack.peek()==key){
-                        stack.pop();
-                    }else{
-                    }
                     out+=indent(depth)+line+"\n";
 
                 }
