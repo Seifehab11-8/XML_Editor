@@ -1,54 +1,99 @@
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.BufferedWriter;
 import java.io.IOException;
-
-
+import java.util.Map;
+import java.util.HashMap;
 
 public class XMLDecompressor {
 
-    /* Method to decompress the compressed file */
+    private Map<String, String> tagMappings;
+
+    // Constructor to initialize the tag mappings
+    public XMLDecompressor() {
+        this.tagMappings = new HashMap<>();
+    }
+
+    // Format the XML with proper indentation for better readability
+    public String formatXML(String xml) {
+        StringBuilder formatted = new StringBuilder();
+        int indentLevel = 0;
+        String indent = "    "; // Indentation with 4 spaces
+
+        String[] lines = xml.split("(?=<)|(?<=</?)>");
+        for (int i = 0; i < lines.length; i++) {
+            String line = lines[i].trim();
+            
+            if (line.isEmpty()) {
+                continue;
+            }
+
+            // Decrease indent for closing or self-closing tags
+            if (line.startsWith("</") || line.startsWith("/>")) {
+                indentLevel--;
+            }
+
+            // Add the current indentation level before the line
+            for (int j = 0; j < indentLevel; j++) {
+                formatted.append(indent);
+            }
+
+            // Add the line to the formatted string
+            formatted.append(line).append("\n");
+
+            // Increase indent for opening tags
+            if (line.startsWith("<") && !line.startsWith("</") && !line.startsWith("<!")) {
+                indentLevel++;
+            }
+        }
+
+        return formatted.toString();
+    }
+
+    // Load tag mappings from the key file
+    public void loadKeyFile(String keyFilePath) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(keyFilePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.length() >= 3) {
+                    String shortTag = line.substring(0, 2); // Short tag is the first two characters
+                    String fullTag = line.substring(2); // The rest of the line is the full tag
+                    tagMappings.put(shortTag, fullTag);
+                }
+            }
+        }
+    }
+
+    // Decompress the XML by replacing short tags and expanding text
     public String decompress(String compressedXML) {
         if (compressedXML == null || compressedXML.isEmpty()) {
             throw new IllegalArgumentException("Input cannot be null or empty");
         }
 
-        // Step 1: Replace short tags with full tags
+        // Replace short tags with full tags
         String decompressed = replaceTags(compressedXML);
 
-        // Step 2: Expand compressed text (e.g., a4 -> aaaa)
+        // Expand compressed text (e.g., a4 becomes aaaa)
         decompressed = expandCompressedText(decompressed);
-        
-        /* Return decompressed as a String */
+
+        // Format the decompressed XML
+        decompressed = formatXML(decompressed);
+
         return decompressed;
     }
 
-    /* Replace Tags Method
-       Takes the input compressed file 
-       as parameter string
-       and replaces the short tags
-       with full tags
-     */
+    // Replace short tags with their corresponding full tags
     private String replaceTags(String input) {
-        String[] shortTags = {"<u>", "</u>", "<us>", "</us>", "<i>", "</i>", "<p>", "</p>",
-                              "<f>", "</f>", "<fs>", "</fs>", "<t>", "</t>", "<ts>", "</ts>",
-                              "<b>", "</b>", "<ps>", "</ps>", "<name>", "</name>"};
-
-        String[] fullTags = {"<user>", "</user>", "<users>", "</users>", "<id>", "</id>", "<post>", "</post>",
-                             "<follower>", "</follower>", "<followers>", "</followers>", "<topic>", "</topic>",
-                             "<topics>", "</topics>", "<body>", "</body>", "<posts>", "</posts>", "<name>", "</name>"};
-
-        for (int i = 0; i < shortTags.length; i++) {
-            input = input.replace(shortTags[i], fullTags[i]);
+        for (Map.Entry<String, String> entry : tagMappings.entrySet()) {
+            String shortTag = entry.getKey();
+            String fullTag = entry.getValue();
+            input = input.replace(shortTag, fullTag);
         }
-
         return input;
     }
 
-    /* This Method Expand Text in the Compressed file
-     Parameter is a string
-     Ex: a4 = aaaa  */
+    // Expand compressed characters (e.g., a4 -> aaaa)
     private String expandCompressedText(String input) {
         StringBuilder result = new StringBuilder();
         char[] chars = input.toCharArray();
@@ -56,23 +101,29 @@ public class XMLDecompressor {
         for (int i = 0; i < chars.length; i++) {
             char currentChar = chars[i];
 
+            // If a digit follows a character, repeat that character
             if (i + 1 < chars.length && Character.isDigit(chars[i + 1])) {
-                int count = chars[i + 1] - '0'; // Convert char digit to integer
+                int count = chars[i + 1] - '0'; // Convert digit to number
 
-                for (int j = 0; j < count; j++) {
-                    result.append(currentChar);
+                // Repeat the character count times, except for '>' 
+                if (currentChar != '>') {
+                    for (int j = 0; j < count; j++) {
+                        result.append(currentChar);
+                    }
+                } else {
+                    result.append(currentChar); // Just add '>' without repeating
                 }
 
-                i++; // Skip the digit character
+                i++; // Skip the digit
             } else {
-                result.append(currentChar);
+                result.append(currentChar); // Normal character
             }
         }
 
         return result.toString();
     }
 
-    /* Read The content of the file [Compressed file] */
+    // Read the content of the compressed XML file
     public String readFile(String filePath) throws IOException {
         StringBuilder content = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
@@ -84,10 +135,11 @@ public class XMLDecompressor {
         return content.toString();
     }
 
-    /* Write the content of the file [DeCompressed file] */
+    // Write the decompressed XML to a file
     public void writeFile(String filePath, String content) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             writer.write(content);
         }
     }
 }
+
