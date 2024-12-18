@@ -1,1 +1,76 @@
-<users><!-- This section contains user information --><user><!-- Unique ID for the user --><id>1</id><!-- Name of the user --><name>Ahmed Ali</name><posts><!-- Posts made by the user --><post><!-- Content of the post --><body>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</body><topics><!-- Topics associated with the post --><topic>economy</topic><topic>finance</topic></topics></!-- Topics associated with the post --></post></topics><post><body>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</body><topics><topic>solar_energy</topic></topics></post></posts></!-- Content of the post --><followers><!-- Followers of the user --><follower><!-- ID of the follower --><id>2</id></follower></!-- ID of the follower --><follower><id>3</id></follower></followers></follower></user></!-- Followers of the user --><user><id>2</id><name>Yasser Ahmed</name><posts><post><body>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</body><topics><topic>education</topic></topics></post></posts><followers><follower><id>1</id></follower></followers></user><user><id>3</id><name>Mohamed Sherif</name><posts><post><body>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</body><topics><topic>sports</topic></topics></post></posts><followers><follower><id>1</id></follower></followers></user></users></followers></post></!-- Posts made by the user --></posts></!-- Name of the user --></!-- Unique ID for the user --></user></!-- This section contains user information --></users>
+{
+"user": {
+"id": {
+"name": "Ahmed Ali",
+"posts": {
+"post": [
+{
+"body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+"topics": {
+"topic": [
+{
+"topic": "economy"
+},
+{
+"topic": "finance"
+}
+]
+}
+},
+{
+"body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+"topics": {
+"topic": "solar_energy"
+}
+}
+]
+},
+"followers": {
+"follower": [
+{
+"id": "2"
+},
+{
+"id": "3"
+}
+]
+},
+"user": [
+{
+"id": "2",
+"name": "Yasser Ahmed",
+"posts": {
+"post": {
+"body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+"topics": {
+"topic": "education"
+}
+}
+},
+"followers": {
+"follower": {
+"id": "1"
+}
+}
+},
+{
+"id": "3",
+"name": "Mohamed Sherif",
+"posts": {
+"post": {
+"body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+"topics": {
+"topic": "sports"
+}
+}
+},
+"followers": {
+"follower": {
+"id": "1"
+}
+}
+}
+]
+}
+}
+}

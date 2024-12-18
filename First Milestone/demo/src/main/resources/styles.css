@@ -9,7 +9,7 @@
 }
 
 .text-area .scroll-bar:vertical > .thumb {
-    -fx-background-color: #3498db;
+    -fx-background-color: #5B5BF0FF;
     -fx-background-radius: 4px;
 }
 
@@ -24,7 +24,7 @@
 }
 
 .text-area .scroll-bar:horizontal > .thumb {
-    -fx-background-color: #3498db;
+    -fx-background-color: #5B5BF0FF;
     -fx-background-radius: 4px;
 }
 

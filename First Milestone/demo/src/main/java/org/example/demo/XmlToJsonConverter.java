@@ -17,7 +17,7 @@ public class XmlToJsonConverter {
             String json = xmlToJson(root);
             Files.write(Paths.get(outputFilePath), json.getBytes());
         } catch (Exception e) {
-            System.err.println(STR."Failed to correct or load XML: \{e.getMessage()}");
+            System.err.println("Failed to correct or load XML: "+e.getMessage());
             throw e;
         }
     }

@@ -1,0 +1,177 @@
+{
+  "user": [
+{
+  "id": "1",
+  "name": "Ahmed Ali",
+  "followers": {
+  "follower": [
+{
+  "id": "2"
+},
+{
+  "id": "3"
+},
+{
+  "id": "4"
+},
+{
+  "id": "5"
+}
+  ]
+}
+},
+{
+  "id": "2",
+  "name": "Yasser Ahmed",
+  "followers": {
+  "follower": [
+{
+  "id": "1"
+},
+{
+  "id": "3"
+},
+{
+  "id": "6"
+}
+  ]
+}
+},
+{
+  "id": "3",
+  "name": "Mohamed Sherif",
+  "followers": {
+  "follower": [
+{
+  "id": "1"
+},
+{
+  "id": "2"
+},
+{
+  "id": "4"
+}
+  ]
+}
+},
+{
+  "id": "4",
+  "name": "Salma Hassan",
+  "followers": {
+  "follower": [
+{
+  "id": "1"
+},
+{
+  "id": "3"
+},
+{
+  "id": "5"
+},
+{
+  "id": "6"
+}
+  ]
+}
+},
+{
+  "id": "5",
+  "name": "Sara Ibrahim",
+  "followers": {
+  "follower": [
+{
+  "id": "1"
+},
+{
+  "id": "4"
+}
+  ]
+}
+},
+{
+  "id": "6",
+  "name": "Hassan Khaled",
+  "followers": {
+  "follower": [
+{
+  "id": "2"
+},
+{
+  "id": "4"
+}
+  ]
+}
+},
+{
+  "id": "7",
+  "name": "Laila Hany",
+  "followers": {
+  "follower": [
+{
+  "id": "1"
+},
+{
+  "id": "3"
+},
+{
+  "id": "5"
+}
+  ]
+}
+},
+{
+  "id": "8",
+  "name": "Omar Fahmy",
+  "followers": {
+  "follower": [
+{
+  "id": "6"
+},
+{
+  "id": "7"
+},
+{
+  "id": "1"
+}
+  ]
+}
+},
+{
+  "id": "9",
+  "name": "Ali Mahmoud",
+  "followers": {
+  "follower": [
+{
+  "id": "1"
+},
+{
+  "id": "3"
+},
+{
+  "id": "7"
+}
+  ]
+}
+},
+{
+  "id": "10",
+  "name": "Nadia Karim",
+  "followers": {
+  "follower": [
+{
+  "id": "1"
+},
+{
+  "id": "2"
+},
+{
+  "id": "5"
+},
+{
+  "id": "9"
+}
+  ]
+}
+}
+  ]
+}

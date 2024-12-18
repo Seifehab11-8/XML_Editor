@@ -33,7 +33,7 @@ public class XMLValidator {
                     if (tag.startsWith("/")) {
                         String tagName = tag.substring(1); // Remove '/'
                         if (tagStack.isEmpty() || !tagStack.peek().equals(tagName)) {
-                            System.out.println(STR."Invalid: Mismatched closing tag </\{tagName}>");
+                            System.out.println("Invalid: Mismatched closing tag"+ "</{" + tagName + "}>");
                             return false; // Mismatched closing tag
                         }
                         tagStack.pop(); // Pop the matched opening tag
@@ -45,13 +45,13 @@ public class XMLValidator {
                 }
             }
         } catch (IOException e) {
-            System.out.println(STR."Error reading the file: \{e.getMessage()}");
+            System.out.println("Error reading the file: "+e.getMessage());
             return false;
         }
 
-        // If the stack is not empty, there are unmatched opening tags
+        // If the stack is not empty, there are unmatched opening tags tagStack.peek()
         if (!tagStack.isEmpty()) {
-            System.out.println(STR."Invalid: Unmatched opening tag <\{tagStack.peek()}>");
+            System.out.println("Invalid: Unmatched opening tag"+ "</{" + tagStack.peek() + "}>");
             return false;
         }
 

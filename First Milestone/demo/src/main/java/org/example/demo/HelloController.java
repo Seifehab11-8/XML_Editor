@@ -48,7 +48,7 @@ public class HelloController {
 
     private void addHoverEffect(Button button) {
         // Scale transition for mouse entered event
-        button.addEventHandler(MouseEvent.MOUSE_ENTERED, _ -> {
+        button.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
             ScaleTransition st = new ScaleTransition(Duration.millis(200), button);
             st.setToX(1.02); // Scale up by 2%
             st.setToY(1.02);
@@ -56,7 +56,7 @@ public class HelloController {
         });
 
         // Scale transition for mouse exited event
-        button.addEventHandler(MouseEvent.MOUSE_EXITED, _ -> {
+        button.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
             ScaleTransition st = new ScaleTransition(Duration.millis(200), button);
             st.setToX(1.0); // Scale back to original size
             st.setToY(1.0);
@@ -68,7 +68,7 @@ public class HelloController {
         // Allow drag over event
         fileUploadContainer.setOnDragOver(event -> {
             Dragboard db = event.getDragboard();
-            if (db.hasFiles() && db.getFiles().stream().allMatch(file -> file.getName().endsWith(".xml"))) {
+            if (db.hasFiles() && db.getFiles().stream().allMatch(file -> (file.getName().endsWith(".xml")||file.getName().endsWith(".json")))) {
                 event.acceptTransferModes(TransferMode.COPY);
             }
             event.consume();
@@ -80,15 +80,15 @@ public class HelloController {
             boolean success = false;
             if (db.hasFiles()) {
                 for (File file : db.getFiles()) {
-                    if (file.getName().endsWith(".xml")) {
+                    if (file.getName().toLowerCase().endsWith(".xml") ||file.getName().toLowerCase().endsWith(".json")) {
                         if (file.exists()) {
-                            if (file.getName().toLowerCase().endsWith(".xml")) {
+                            if (file.getName().toLowerCase().endsWith(".xml") ||file.getName().toLowerCase().endsWith(".json")) {
                                 filePathField.setText(file.getAbsolutePath());
                                 onStartButtonClicked();
                             } else {
                                 fileUploadContainer.getChildren().clear();
                                 TextField textField =new TextField();
-                                textField.setText("Not an XML File");
+                                textField.setText("Not an XML/JSON File");
                             }
                         }
                     }
@@ -103,7 +103,7 @@ public class HelloController {
     public void onBrowseButtonClicked() {
         FileChooser fileChooser = new FileChooser();
         // Optionally add filters for the file types you want to allow
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter( "XML and JSON Files", "*.xml", "*.json"));
 
         // Show the file chooser dialog
         File selectedFile = fileChooser.showOpenDialog(browseButton.getScene().getWindow());
