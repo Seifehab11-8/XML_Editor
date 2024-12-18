@@ -38,19 +38,21 @@ public class XMLCorrection {
                     if (tag.startsWith("/")) { // Closing tag
                         String tagName = tag.substring(1);
                         if (!tagStack.isEmpty() && tagStack.peek().equals(tagName)) {
-                            correctedXML.append("<").append(tag).append(">");
+                            correctedXML.append("<").append(tag).append(">\n");
                             tagStack.pop(); // Correctly matched
                         } else {
                             System.out.println("Error: Mismatched closing tag </" + tagName + ">");
                             // Skip mismatched tag
                         }
                     } else if (!tag.endsWith("/")) { // Opening tag (ignore self-closing tags)
-                        correctedXML.append("<").append(tag).append(">");
+                        correctedXML.append("<").append(tag).append(">\n");
                         tagStack.push(tag);
                     }
                 }
 
-                correctedXML.append(line); // Append any remaining line content
+                if (!line.isBlank()) {
+                    correctedXML.append(line).append("\n"); // Append remaining line content with a newline
+                }
             }
         } catch (IOException e) {
             System.out.println("Error reading the file: " + e.getMessage());
@@ -58,7 +60,7 @@ public class XMLCorrection {
 
         // Add missing closing tags
         while (!tagStack.isEmpty()) {
-            correctedXML.append("</").append(tagStack.pop()).append(">");
+            correctedXML.append("</").append(tagStack.pop()).append(">\n");
         }
 
         return correctedXML.toString();
