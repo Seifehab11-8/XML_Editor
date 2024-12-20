@@ -1,87 +1,110 @@
-import java.io.BufferedReader;
+import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.HashMap;
+import java.util.List;
 
-public class JsonDecompressor {
+public class Decompression {
 
-    /* Method to decompress the compressed file */
-    public String decompress(String compressedJSON) {
-        if (compressedJSON == null || compressedJSON.isEmpty()) {
-            throw new IllegalArgumentException("Input cannot be null or empty");
-        }
+    private HashMap<Character, String> huffmanCodeMap;
+    private HashMap<String, Character> reverseHuffmanCodeMap;
+    private List<BitSet> compressedData;
+    private List<String> decodedData;
 
-        // Step 1: Replace short tags with full tags
-        String decompressed = replaceTags(compressedJSON);
-
-        // Step 2: Expand compressed text (e.g., a4 -> aaaa)
-        decompressed = expandCompressedText(decompressed);
-        
-        /* Return decompressed as a String */
-        return decompressed;
+    public Decompression() {
+        huffmanCodeMap = new HashMap<>();
+        reverseHuffmanCodeMap = new HashMap<>();
+        compressedData = new ArrayList<>();
+        decodedData = new ArrayList<>();
     }
 
-    /* Replace Tags Method
-       Takes the input compressed file 
-       as parameter string
-       and replaces the short tags
-       with full tags
-     */
-    private String replaceTags(String input) {
-    String[] shortTags = {"\"u\"", "\"us\"", "\"i\"", "\"p\"", "\"f\"", "\"fs\"", "\"t\"", "\"ts\"", "\"b\"", "\"ps\"", "\"n\""};
-    String[] fullTags = {"\"user\":", "\"users\":", "\"id\":", "\"post\":", "\"follower\":", "\"followers\":", "\"topic\":", "\"topics\":", "\"body\":", "\"posts\":", "\"name\":"};
-
-
-        for (int i = 0; i < shortTags.length; i++) {
-            input = input.replace(shortTags[i], fullTags[i]);
-        }
-
-        return input;
-    }
-
-    /* This Method Expand Text in the Compressed file
-     Parameter is a string
-     Ex: a4 = aaaa  */
-    private String expandCompressedText(String input) {
-        StringBuilder result = new StringBuilder();
-        char[] chars = input.toCharArray();
-
-        for (int i = 0; i < chars.length; i++) {
-            char currentChar = chars[i];
-
-            if (i + 1 < chars.length && Character.isDigit(chars[i + 1])) {
-                int count = chars[i + 1] - '0'; // Convert char digit to integer
-
-                for (int j = 0; j < count; j++) {
-                    result.append(currentChar);
+    // Load Huffman codes from a file
+    public boolean loadHuffmanCodes(String keyFilePath) {
+        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(keyFilePath))) {
+            int character;
+            while ((character = bis.read()) != -1) {
+                char key = (char) character;
+                int length = bis.read();
+                byte[] bytes = new byte[length];
+                bis.read(bytes);
+                bis.read(); // Get rid of '\n'
+                BitSet bitSet = BitSet.valueOf(bytes);
+                StringBuilder code = new StringBuilder();
+                for (int i = 0; i < bitSet.length() - 1; i++) {
+                    code.append(bitSet.get(i) ? '1' : '0');
                 }
 
-                i++; // Skip the digit character
-            } else {
-                result.append(currentChar);
+                huffmanCodeMap.put(key, code.toString());
+                reverseHuffmanCodeMap.put(code.toString(), key);
             }
+        } catch (IOException e) {
+            System.out.println("Error reading Huffman code file: " + e.getMessage());
+            return false;
         }
-
-        return result.toString();
+        return true;
     }
 
-    /* Read The content of the file [Compressed file] */
-    public String readFile(String filePath) throws IOException {
-        StringBuilder content = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                content.append(line);
+    // Load compressed data from a file
+    public boolean loadCompressedData(String compressedFilePath) {
+        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(compressedFilePath))) {
+            int length;
+            while ((length = bis.read()) != -1) {
+                byte[] bytes = new byte[length];
+                bis.read(bytes);
+                bis.read(); // Get rid of '\n'              
+                BitSet bitSet = BitSet.valueOf(bytes);
+                compressedData.add(bitSet);
             }
+        } catch (IOException e) {
+            System.out.println("Error reading compressed file: " + e.getMessage());
+            return false;
         }
-        return content.toString();
+        return true;
     }
 
-    /* Write the content of the file [DeCompressed file] */
-    public void writeFile(String filePath, String content) throws IOException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write(content);
+    // Decode the data using Huffman codes
+    public boolean decodeData() {
+        for (BitSet bitSet : compressedData) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < bitSet.length() - 1; i++) {
+                sb.append(bitSet.get(i) ? '1' : '0');
+            }
+            String decodedString = decodeHuffman(sb.toString());
+            decodedData.add(decodedString);
         }
+        return true;
+    }
+
+    // Decode a Huffman encoded string
+    private String decodeHuffman(String encodedString) {
+        StringBuilder decodedString = new StringBuilder();
+        StringBuilder tempCode = new StringBuilder();
+        for (int i = 0; i < encodedString.length(); i++) {
+            tempCode.append(encodedString.charAt(i));
+            if (reverseHuffmanCodeMap.containsKey(tempCode.toString())) {
+                decodedString.append(reverseHuffmanCodeMap.get(tempCode.toString()));
+                tempCode.setLength(0);  // Reset the temporary code builder
+            }
+        }
+        return decodedString.toString();
+    }
+
+    // Save the decoded data to a file
+    public boolean saveDecodedData(String outputPath) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath))) {
+            for (String line : decodedData) {
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Error writing decoded data: " + e.getMessage());
+            return false;
+        }
+        return true;
     }
 }
+
