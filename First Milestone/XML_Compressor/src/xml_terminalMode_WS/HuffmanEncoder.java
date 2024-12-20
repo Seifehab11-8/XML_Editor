@@ -75,12 +75,14 @@ public class HuffmanEncoder {
 		}
 		
 		for(String str: byteRepresentation) {
-			BitSet bst = new BitSet(str.length());
-			for(int i = 0; i < str.length(); i++) {
+			BitSet bst = new BitSet(str.length()+1);
+			int i;
+			for(i = 0; i < str.length(); i++) {
 				if(str.charAt(i) == '1') {
 					bst.set(i);
 				}
 			}
+			bst.set(i);
 			encodedFile.add(bst);
 		}
 	
