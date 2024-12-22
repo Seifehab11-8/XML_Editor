@@ -6,7 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-public class HelloWorld {
+public class prettify {
     static String indent(int num){
         String ind = "";
         for(int i=0;i<num;i++){
