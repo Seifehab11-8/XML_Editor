@@ -1,24 +1,9 @@
 import java.io.*;
-import java.nio.file.*;
 import java.util.*;
 import java.util.regex.*;
 
 public class XMLCorrection {
 
-    // Define the correct set of tag names
-    private static final Set<String> correctTags = new HashSet<>(Arrays.asList(
-            "users", "user", "posts", "post", "topics", "topic", "body", "followers", "follower", "id", "name"
-    ));
-
-    // Method to correct any misspelled tag name to a valid tag by removing the wrong tag
-    private static String correctTagName(String tag) {
-        if (correctTags.contains(tag)) {
-            return tag; // If it's already correct, return the tag as is.
-        }
-        return null; // Return null for misspelled tags to indicate they should be removed
-    }
-
-    // Method to correct the XML by fixing errors
     public static String correctXML(String filePath) {
         StringBuilder correctedXML = new StringBuilder();
         StringBuilder xmlContent = new StringBuilder();
@@ -64,12 +49,8 @@ public class XMLCorrection {
 
             if (openingMatcher.find()) {
                 String openingTag = openingMatcher.group(1);
-                String correctedOpeningTag = correctTagName(openingTag); // Correct the tag name if it's misspelled
-
-                if (correctedOpeningTag != null) {  // Only keep the tag if it is valid
-                    correctedXML.append(xmlString, index, openingMatcher.start()).append("\n"); // Add content before the opening tag
-                    correctedXML.append("<").append(correctedOpeningTag).append(">\n"); // Add the corrected opening tag
-                }
+                correctedXML.append(xmlString, index, openingMatcher.start()).append("\n"); // Add content before the opening tag
+                correctedXML.append("<").append(openingTag).append(">\n"); // Add the opening tag
                 index = openingMatcher.end();
 
                 // Check if this tag is missing a closing tag
@@ -82,17 +63,14 @@ public class XMLCorrection {
 
                     if (nextOpeningTagIndex == -1) {
                         // No more tags, close at the end
-                        if (correctedOpeningTag != null) {
-                            correctedXML.append(xmlString.substring(index).trim()).append("\n");
-                            correctedXML.append("</").append(correctedOpeningTag).append(">\n");
-                        }
+                        correctedXML.append(xmlString.substring(index).trim()).append("\n");
+                        correctedXML.append("</").append(openingTag).append(">\n");
                         index = xmlString.length();
                     } else {
                         // Add content between and close the tag
-                        if (correctedOpeningTag != null) {
-                            correctedXML.append(xmlString, index, nextOpeningTagIndex).append("\n");
-                            correctedXML.append("</").append(correctedOpeningTag).append(">\n");
-                        }
+                        correctedXML.append(xmlString, index, nextOpeningTagIndex).append("\n");
+                        correctedXML.append("</").append(openingTag).append(">\n");
+
                         // Update the count
                         closingTagCounts.put(openingTag, closingTagCounts.getOrDefault(openingTag, 0) + 1);
                         index = nextOpeningTagIndex;
@@ -124,7 +102,7 @@ public class XMLCorrection {
         String inputFilePath = null;
         String outputFilePath = null;
         boolean fixErrors = false;
-        
+
         // Parse command-line arguments
         for (int i = 0; i < args.length; i++) {
             if ("-i".equals(args[i])) {
