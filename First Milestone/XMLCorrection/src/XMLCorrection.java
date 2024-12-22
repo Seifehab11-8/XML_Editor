@@ -98,13 +98,26 @@ public class XMLCorrection {
     }
 
     public static void main(String[] args) {
-        String inputFilePath = "input_file.xml";
+        if (args.length != 4 || !args[0].equals("-f") || !args[1].equals("-o")) {
+            System.out.println("Usage: java XMLCorrection -f -o output_file.xml input_file.xml");
+            return;
+        }
+
+        String outputFilePath = args[2];
+        String inputFilePath = args[3];
+
+        // Correct the XML
         String correctedXML = correctXML(inputFilePath);
 
-        // Write the corrected XML to an output file
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("corrected_output.xml"))) {
+        if (correctedXML.isEmpty()) {
+            System.err.println("Failed to correct the XML. Please check the input file.");
+            return;
+        }
+
+        // Write the corrected XML to the output file
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFilePath))) {
             writer.write(correctedXML);
-            System.out.println("Corrected XML written to corrected_output.xml");
+            System.out.println("Corrected XML written to " + outputFilePath);
         } catch (IOException e) {
             System.err.println("Error writing to file: " + e.getMessage());
         }
