@@ -1,0 +1,65 @@
+using System;
+using System.Globalization;
+
+class Program
+{
+    static void Main()
+    {
+        // Display greeting based on the time of day
+        DateTime currentTime = DateTime.Now;
+        if (currentTime.Hour < 12)
+        {
+            Console.WriteLine("Good morning!");
+        }
+        else
+        {
+            Console.WriteLine("Good evening!");
+        }
+
+        // Validate the full name
+        Console.Write("Please enter your full name: ");
+        string fullName = Console.ReadLine();
+
+        while (string.IsNullOrWhiteSpace(fullName) || fullName.Split(' ').Length < 3)
+        {
+            Console.WriteLine("Error: Please enter a full name with at least three parts.");
+            Console.Write("Please enter your full name: ");
+            fullName = Console.ReadLine();
+        }
+
+        // Check loan eligibility
+        Console.Write("Do you have the authority to receive the loan? (yes/no): ");
+        string loanAuthority = Console.ReadLine().ToLower();
+
+        if (loanAuthority == "yes")
+        {
+            Console.Write("Enter the loan amount: ");
+            if (decimal.TryParse(Console.ReadLine(), out decimal loanAmount) && loanAmount > 0)
+            {
+                // Calculate installments
+                decimal firstInstallment = loanAmount * 0.4m;
+                decimal secondInstallment = loanAmount * 0.4m;
+                decimal thirdInstallment = loanAmount * 0.2m;
+
+                DateTime firstInstallmentDate = currentTime.AddDays(135);
+                DateTime secondInstallmentDate = firstInstallmentDate.AddDays(105);
+                DateTime thirdInstallmentDate = secondInstallmentDate.AddDays(15);
+
+                Console.WriteLine("\nLoan Installment Schedule:");
+                Console.WriteLine($"1st Installment: {firstInstallment:C} due on {firstInstallmentDate:MMMM dd, yyyy}");
+                Console.WriteLine($"2nd Installment: {secondInstallment:C} due on {secondInstallmentDate:MMMM dd, yyyy}");
+                Console.WriteLine($"3rd Installment: {thirdInstallment:C} due on {thirdInstallmentDate:MMMM dd, yyyy}");
+            }
+            else
+            {
+                Console.WriteLine("Invalid loan amount. Please enter a valid number.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("You are not authorized to receive the loan.");
+        }
+
+        Console.WriteLine("\nThank you for using our service!");
+    }
+}
