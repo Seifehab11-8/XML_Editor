@@ -1,4 +1,4 @@
-package xml_terminalMode_WS;
+package xml_editor;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -19,6 +19,7 @@ public class Compression {
 	HuffmanEncoder huffEncode;
 	private HashMap<String, Character> KeysToTokens;
 	private char randomChar = 'A';
+	private String outputPath;
 	
 	Compression(){
 		bufferList = new ArrayList<>();
@@ -100,7 +101,7 @@ public class Compression {
 	
 	boolean createCompressedFile(String type)
 	{
-		String filePath = String.format("./output%s.comp", type);
+		String filePath = String.format("./%s.comp", outputPath);
 		String KeyPath = String.format("./KeyFile%s.comp", type);
 		boolean typeCheck = ("XML").equals(type);
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) { 
@@ -138,7 +139,7 @@ public class Compression {
 	
 	boolean createCompressedFile(String type, List<BitSet> bstList)
 	{
-		String filePath = String.format("./output%s.comp", type);
+		String filePath = String.format("./%s.comp", outputPath);
 		String KeyPath = String.format("./KeyFile%s.comp", type);
 		
 		try (FileOutputStream fos = new FileOutputStream(filePath);
@@ -296,5 +297,13 @@ public class Compression {
 	{
 		return bufferList;
 		
+	}
+
+	public String getOutputPath() {
+		return outputPath;
+	}
+
+	public void setOutputPath(String outputPath) {
+		this.outputPath = outputPath;
 	}
 }
