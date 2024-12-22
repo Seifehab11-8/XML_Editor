@@ -4,125 +4,148 @@ import java.io.*;
 import java.util.*;
 
 public class XmlToJsonConverter {
+
     public static void main(String[] args) {
-        // File path to the XML text file
-        String textFilePath = "C:/mine/dsa labs/test.txt";
+        // Provide the path to the XML file
+        String filePath = "C:/mine/dsa labs/test1.txt";
+        String data =null ;
 
         try {
-            // Read the XML content from the file
-            String xmlContent = readFileAsString(textFilePath);
+            // Read XML  from text file using it's path
+        	data=XmlToJsonConverter.xmlToJson(XmlToJsonConverter.parseXml((XmlToJsonConverter.readFile(filePath))));
+            System.out.println(data);
 
-            // Convert XML to JSON
-            String jsonOutput = convertXmlToJson(xmlContent);
-
-            // Print the JSON output
-            System.out.println("JSON Output:");
-            System.out.println(jsonOutput);
-
-        } catch (IOException e) {
-            System.err.println("Error reading the file: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    }
-
-    
-    private static String readFileAsString(String filePath) throws IOException {
-        StringBuilder builder = new StringBuilder();
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                builder.append(line.trim());
-            }
-        }
-        return builder.toString();
     }
 
    
-    private static String convertXmlToJson(String xml) {
-        if (xml.startsWith("<?xml")) {
-            xml = xml.substring(xml.indexOf("?>") + 2).trim(); // Remove XML declaration
-        }
-
-        Stack<String> openTags = new Stack<>();  // To keep track of open tags
-        List<String> tags = new ArrayList<>();   // To store tags
-        List<String> values = new ArrayList<>(); // To store values
-        List<List<String>> nestedTags = new ArrayList<>(); // To store nested tags (arrays)
-        StringBuilder currentText = new StringBuilder();  
-        int i = 0;
-
-        while (i < xml.length()) {
-            if (xml.charAt(i) == '<') {
-                // Handle closing tag
-                if (xml.charAt(i + 1) == '/') {
-                    int end = xml.indexOf('>', i);
-                    String closingTag = xml.substring(i + 2, end).trim();
-
-                    if (!openTags.isEmpty() && closingTag.equals(openTags.peek())) {
-                        if (currentText.length() > 0) {
-                            
-                            tags.add(openTags.peek());
-                            values.add(currentText.toString().trim());
-                        }
-                        currentText.setLength(0); 
-                        openTags.pop(); // Remove the tag from the stack
-                    }
-                    i = end + 1;
-                }
-                // Handle opening tag
-                else {
-                    int end = xml.indexOf('>', i);
-                    String openingTag = xml.substring(i + 1, end).trim();
-                    openTags.push(openingTag); 
-                    nestedTags.add(new ArrayList<>());  
-                    i = end + 1;
-
-                    
-                    if (xml.charAt(end - 1) == '/') {
-                        tags.add(openingTag);
-                        values.add("");
-                    }
-                }
-            } else {
-                // Collect text content
-                currentText.append(xml.charAt(i));
-                i++;
+    public static String readFile(String filePath) throws IOException {
+        StringBuilder content = new StringBuilder();
+        // create bufferreader object to read file with given path
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            //make loop to itrates to all the lines in the file
+            while ((line = reader.readLine()) != null) {
+                content.append(line).append("\n");
             }
         }
-
-
-        return formatJson(tags, values, nestedTags);
+        return content.toString();
     }
 
-    
-    private static String formatJson(List<String> tags, List<String> values, List<List<String>> nestedTags) {
-        StringBuilder json = new StringBuilder("{\n");
+    //  represent an XML element
+    static class XmlElement {
+        String tagName;
+        String textContent;  // value inbetween the tags
+        List<XmlElement> children; // as in the tree (parent,child)
 
-        int i = 0;
-        while (i < tags.size()) {
-            json.append("  \"").append(tags.get(i)).append("\": ");
+        public XmlElement(String tagName) {
+            this.tagName = tagName;
+            this.textContent = "";
+            this.children = new ArrayList<>();
+        }
+    }
 
-            
-            if (nestedTags.get(i).size() > 0) {
-                json.append("[\n");
-                for (String nestedTag : nestedTags.get(i)) {
-                    json.append("    {\n");
-                    json.append("      \"").append(nestedTag).append("\": \"").append(values.get(i)).append("\"\n");
-                    json.append("    },\n");
+    // Function to parse XML to return xml elemnt of root with all its children
+    public static XmlElement parseXml(String xmlData) {
+        Stack<XmlElement> stack = new Stack<>();
+        XmlElement root = null;
+
+        // Split the XML into tokens (tags and text content)
+        String[] tokens = xmlData.split("(?=<)|(?<=>)");
+
+        for (String token : tokens) {
+            token = token.trim(); //to remove extra spaces
+            if (token.isEmpty()) continue;
+
+            if (token.startsWith("<") && token.endsWith(">")) {
+                if (token.startsWith("</")) {
+                    // Closing tag
+                    XmlElement element = stack.pop();
+                    if (stack.isEmpty()) {
+                        root = element; // This is the root element
+                    } else {
+                        stack.peek().children.add(element); // Add to parent's children
+                    }
+                } 
+                else {
+                    // Opening tag
+                    String tagName = token.substring(1, token.length() - 1).trim(); // to contain tag name from the token
+                    XmlElement element = new XmlElement(tagName);
+                    stack.push(element);
                 }
-                json.deleteCharAt(json.length() - 2); 
-                json.append("  ]");
-            } else {
-                json.append("\"").append(values.get(i)).append("\"");
+            } 
+            else {
+                // Text content
+                if (!stack.isEmpty()) {
+                    stack.peek().textContent += token.trim();
+                }
             }
-
-            if (i < tags.size() - 1) {
-                json.append(",");
-            }
-            json.append("\n");
-            i++;
         }
 
-        json.append("}");
+        return root;
+    }
+
+    // Function to convert the xml to JSON by passing only the root of tree
+    public static String xmlToJson(XmlElement element) {
+        StringBuilder json = new StringBuilder(); //to append the json format in it
+        json.append("{\n"); // the start of the output
+
+        boolean[] processed = new boolean[element.children.size()]; // to make sure we itrated on all childerns
+
+        boolean first = true;
+
+        for (int i = 0; i < element.children.size(); i++) {
+            if (processed[i]) continue;
+
+            XmlElement child = element.children.get(i);
+
+            // Find repeated children
+            List<XmlElement> repeatedChildren = new ArrayList<>();
+            for (int j = i; j < element.children.size(); j++) {
+            	//check if the child is repeated or no to add it in the repeatedchildern list 
+                if (!processed[j] && element.children.get(j).tagName.equals(child.tagName)) {
+                    repeatedChildren.add(element.children.get(j));
+                    processed[j] = true;
+                }
+            }
+
+            if (!first) json.append(",\n");
+            first = false;
+
+            if (repeatedChildren.size() > 1) {
+                // Handle repeated elements as an array
+                json.append("  \"").append(child.tagName).append("\": [\n");
+                for (int k = 0; k < repeatedChildren.size(); k++) {
+                    if (k > 0) json.append(",\n");
+                    json.append(xmlToJson(repeatedChildren.get(k)));
+                }
+                json.append("\n  ]");
+            } else {
+                // Single element
+                XmlElement singleElement = repeatedChildren.get(0);
+                if (singleElement.children.isEmpty()) {
+                    // Direct value (no children)
+                    json.append("  \"").append(singleElement.tagName).append("\": \"")
+                        .append(singleElement.textContent.replace("\"", "\\\""))
+                        .append("\"");
+                } else {
+                    // Nested object repeat with recurion 
+                    json.append("  \"").append(singleElement.tagName).append("\": ").append(xmlToJson(singleElement));
+                }
+            }
+        }
+
+        // Add text content directly if only thr root exist with no childs and grandchilds
+        if (!element.textContent.isEmpty() && element.children.isEmpty()) {
+            if (!first) json.append(",\n");
+            json.append("  \"").append(element.tagName).append("\": \"")
+                .append(element.textContent.replace("\"", "\\\""))
+                .append("\"");
+        }
+
+        json.append("\n}"); // end of the output
         return json.toString();
     }
 }
