@@ -1,40 +1,33 @@
-package xml_terminalMode_WS;
+package xml_editor;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+public class Main  {
 
-public class Main {
+    public static void main(String[] args) {
+    	Compression c1 = new Compression();
+        String inputFilePath = null;
+        String outputFilePath = null;
+        // Parse the command-line arguments
+        if (!args[0].equals("compress")) {
+            System.out.println("Unknown command. Only 'compress' is supported.");
+            return;
+        }
+        for (int i = 1; i < args.length; i++) {
+            if (args[i].equals("-i") && i + 1 < args.length) {
+                inputFilePath = args[i + 1];
+            } else if (args[i].equals("-o") && i + 1 < args.length) {
+                outputFilePath = args[i + 1];
+            }
+        }
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		boolean check;
-		Compression c1 = new Compression();
-		HashMap <String, Integer> cc;
-		
-		check = c1.compressXML("C:\\Users\\semaz\\OneDrive\\Documents\\XML project WS\\xml_terminalMode_WS\\text.xml.txt");
-		c1.compressJSON("C:\\Users\\semaz\\OneDrive\\Documents\\XML project WS\\xml_terminalMode_WS\\jsonText.json.txt");
-//		c1.compressJSON("C:\\Users\\semaz\\Downloads\\jsonText.json.txt");
-		if(check)
-		{
-			
+		if(inputFilePath.contains("xml") && !inputFilePath.contains("json")) {
+			c1.setOutputPath(outputFilePath);
+			c1.compressXML(inputFilePath);
 		}
 		else {
-			System.out.println("F");
+			System.out.println("JSON compression");
+			c1.setOutputPath(outputFilePath);
+			c1.compressJSON(inputFilePath);
 		}
-		c1.printHuffmanCodes();
-//		Iterator<String> iterator = ((Compression) c1).getBufferedList().iterator();
-//		while (iterator.hasNext()) {
-//		    System.out.println(iterator.next());
-//		}
-		
-//		cc = c1.getTokenCounts();
-//		System.out.println(cc.size());
-//		// Print all keys and values 
-//		for (Map.Entry<String, Integer> entry : cc.entrySet()) 
-//		{ 
-//			System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
-//		}
-	}
-
+		System.out.println("File has been compressed successfully.");
+    }
 }
