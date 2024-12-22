@@ -1,0 +1,22 @@
+<users>
+    <user>
+        <id>1</id>
+        <name>John Doe</name>
+        <posts>
+            <post>
+                <text>Climate change is a global concern.</text>
+                <topics>
+                    <topic>Environment</topic>
+                    <topic>Climate</topic>
+                </topics>
+            </post>
+            <post>
+                <text>Playing sports keeps you healthy.</text>
+                <topics>
+                    <topic>Health</topic>
+                    <topic>Sports</topic>
+                </topics>
+            </post>
+        </posts>
+    </user>
+</users>
