@@ -65,6 +65,10 @@ public class prettify {
                     line = line.replaceAll("<(\\p{Alnum}+)>(\\p{ASCII}*)</\\1>","<$1>\n"+indentplus+"$2\n"+indent+"<$1>");
                     out+=indent+line+"\n";
                 }
+                else if(line.matches("^\\s*\\p{ASCII}+")){
+                    line.replace("^\\s*","");
+                    out+=indent(depth)+"\t"+line+"\n";
+                }
             }
             //print to output file
             try (PrintWriter writer = new PrintWriter(fileout)) {
