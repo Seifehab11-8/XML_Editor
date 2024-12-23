@@ -99,48 +99,31 @@ public class XMLCorrection {
 
     public static void main(String[] args) {
 
-        String inputFilePath = null;
-        String outputFilePath = null;
-        boolean fixErrors = false;
+        // Hardcoded input and output file paths
+        String inputFilePath = "input.xml";
+        String outputFilePath = "output.xml";
 
-        // Parse command-line arguments
-        for (int i = 0; i < args.length; i++) {
-            if ("-i".equals(args[i])) {
-                inputFilePath = args[i + 1];
-                i++; // Skip the next argument
-            } else if ("-o".equals(args[i])) {
-                outputFilePath = args[i + 1];
-                i++; // Skip the next argument
-            } else if ("-f".equals(args[i])) {
-                fixErrors = true;
-            }
-        }
-
-        if (inputFilePath == null || outputFilePath == null) {
-            System.err.println("Input and output file paths are required.");
-            return;
-        }
-
-        // Only correct XML if the -f flag is set
-        if (fixErrors) {
-            String correctedXML = correctXML(inputFilePath);
-            if (!correctedXML.isEmpty()) {
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFilePath))) {
-                    // Write the corrected XML to the output file, one line at a time
-                    String[] lines = correctedXML.split("\n");
-                    for (String line : lines) {
-                        writer.write(line);
-                        writer.newLine(); // Ensure each line is written on a new line
+        String correctedXML = correctXML(inputFilePath);
+        if (!correctedXML.isEmpty()) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFilePath))) {
+                // Write the corrected XML to the output file with formatting
+                for (char c : correctedXML.toCharArray()) {
+                    if (c == '<') {
+                        writer.newLine(); // Add a newline before the tag
+                        writer.write(c);
+                    } else if (c == '>') {
+                        writer.write(c);
+                        writer.newLine(); // Add a newline after the tag
+                    } else {
+                        writer.write(c);
                     }
-                    System.out.println("Corrected XML written to " + outputFilePath);
-                } catch (IOException e) {
-                    System.err.println("Error writing to file: " + e.getMessage());
                 }
-            } else {
-                System.err.println("Failed to correct the XML. Please check the input file.");
+                System.out.println("Corrected XML written to " + outputFilePath);
+            } catch (IOException e) {
+                System.err.println("Error writing to file: " + e.getMessage());
             }
         } else {
-            System.out.println("No changes made. Use the -f option to correct XML.");
+            System.err.println("Failed to correct the XML. Please check the input file.");
         }
     }
 }
