@@ -101,7 +101,7 @@ public class Compression {
 	
 	boolean createCompressedFile(String type)
 	{
-		String filePath = String.format("./%s.comp", outputPath);
+		String filePath = outputPath;
 		String KeyPath = String.format("./KeyFile%s.comp", type);
 		boolean typeCheck = ("XML").equals(type);
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) { 
@@ -139,7 +139,7 @@ public class Compression {
 	
 	boolean createCompressedFile(String type, List<BitSet> bstList)
 	{
-		String filePath = String.format("./%s.comp", outputPath);
+		String filePath = outputPath;
 		String KeyPath = String.format("./KeyFile%s.comp", type);
 		
 		try (FileOutputStream fos = new FileOutputStream(filePath);
