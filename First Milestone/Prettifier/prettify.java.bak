@@ -14,10 +14,30 @@ public class prettify {
         }
         return ind;
     }
-    public void prettifyFile(String inputFilePath, String outputFilePath) throws IOException {
-        
-        File file = new File(inputFilePath);
-        File fileout = new File(outputFilePath);
+    public static void main(String[] args) {
+        if(!args[0].equals("prettify")){
+            System.out.println("Only prettify is supported!");
+            return;
+        }
+        System.out.println("Requested prettifying!"+args[0]);
+        System.out.println(args[1]);
+        File file = null; //input file
+        File fileout = null; //output file
+        //ensure arguments order
+        // prettify -i in -o out
+        if(args[1].equals("-i") && args[3].equals("-o")){
+            file = new File(args[2]);
+            fileout = new File(args[4]);
+        }
+        // prettify -o out -i in 
+        else if(args[3].equals("-i") && args[1].equals("-o")){
+            file = new File(args[4]);
+            fileout = new File(args[2]);
+        }
+        else{
+            System.out.println("parameters not met!");
+            return;
+        }
         String out = "";
         int depth = 0;
         try (Scanner scanner = new Scanner(file)) {
