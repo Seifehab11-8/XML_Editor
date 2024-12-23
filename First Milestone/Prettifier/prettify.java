@@ -42,10 +42,10 @@ public class prettify {
                 else if(line.matches("^\\s*<(\\p{Alnum}+)>\\p{ASCII}*<(/\\1)>")){
                     String indent = indent(depth);
                     String indentplus = indent+"\t";
-                    line = line.replaceAll("<(\\p{Alnum}+)>(\\p{ASCII}*)</\\1>","<$1>\n"+indentplus+"$2\n"+indent+"</$1>");
+                    line = line.replaceAll("<(\\p{Alnum}+)>(\\p{ASCII}*)</\\1>","<$1>\n"+indentplus+"$2\n"+indent+"<$1>");
                     out+=indent+line+"\n";
                 }
-                else if(line.matches("^\\s*\\p{ASCII}+")){
+                else if(line.matches("^\\s*[^<]\\p{ASCII}+")){
                     line.replace("^\\s*","");
                     out+=indent(depth)+"\t"+line+"\n";
                 }
