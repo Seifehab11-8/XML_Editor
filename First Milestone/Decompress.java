@@ -19,7 +19,7 @@ public class XMLDecompressor {
     public String formatXML(String xml) {
         StringBuilder formatted = new StringBuilder();
         int indentLevel = 0;
-        String indent = "    "; // Indentation with 4 spaces
+        String indent = "  "; // Indentation with 4 spaces
 
         String[] lines = xml.split("(?=<)|(?<=</?)>");
         for (int i = 0; i < lines.length; i++) {
@@ -74,8 +74,6 @@ public class XMLDecompressor {
         // Replace short tags with full tags
         String decompressed = replaceTags(compressedXML);
 
-        // Expand compressed text (e.g., a4 becomes aaaa)
-        decompressed = expandCompressedText(decompressed);
 
         // Format the decompressed XML
         decompressed = formatXML(decompressed);
@@ -91,36 +89,6 @@ public class XMLDecompressor {
             input = input.replace(shortTag, fullTag);
         }
         return input;
-    }
-
-    // Expand compressed characters (e.g., a4 -> aaaa)
-    private String expandCompressedText(String input) {
-        StringBuilder result = new StringBuilder();
-        char[] chars = input.toCharArray();
-
-        for (int i = 0; i < chars.length; i++) {
-            char currentChar = chars[i];
-
-            // If a digit follows a character, repeat that character
-            if (i + 1 < chars.length && Character.isDigit(chars[i + 1])) {
-                int count = chars[i + 1] - '0'; // Convert digit to number
-
-                // Repeat the character count times, except for '>' 
-                if (currentChar != '>') {
-                    for (int j = 0; j < count; j++) {
-                        result.append(currentChar);
-                    }
-                } else {
-                    result.append(currentChar); // Just add '>' without repeating
-                }
-
-                i++; // Skip the digit
-            } else {
-                result.append(currentChar); // Normal character
-            }
-        }
-
-        return result.toString();
     }
 
     // Read the content of the compressed XML file
@@ -142,4 +110,3 @@ public class XMLDecompressor {
         }
     }
 }
-
