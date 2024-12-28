@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="MainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="572.0" prefWidth="711.0" style="-fx-background-color: #2b2b2b;" stylesheets="styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.demo.SecondController">
+    <AnchorPane layoutY="5.0" prefHeight="449.0" prefWidth="128.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="9.0">
+    </AnchorPane>
+    <AnchorPane layoutX="3.0" layoutY="10.0" prefHeight="554.0" prefWidth="128.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="3.0" AnchorPane.topAnchor="10.0">
+        <VBox layoutX="3.0" layoutY="39.0" prefHeight="466.0" prefWidth="125.0" AnchorPane.leftAnchor="3.0" AnchorPane.topAnchor="0.0">
+            <Separator prefHeight="15.0" prefWidth="128.0" style="-fx-opacity: 0;" VBox.vgrow="ALWAYS" />
+            <Button fx:id="correction" mnemonicParsing="false" onAction="#CallCorrection" prefHeight="50.0" prefWidth="150.0" style="-fx-border-color: #5B5BF0; -fx-background-color: #2b2b2b; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
+                <cursor>
+                    <Cursor fx:constant="HAND" />
+                </cursor>
+            </Button>
+            <Separator prefHeight="0.0" prefWidth="125.0" style="-fx-opacity: 0;" VBox.vgrow="ALWAYS" />
+            <Button fx:id="prettify" mnemonicParsing="false" onAction="#Call_Prettier" prefHeight="50.0" prefWidth="150.0" style="-fx-border-color: #5B5BF0; -fx-background-color: #2b2b2b; -fx-border-radius: 33; -fx-border-width: 3 ;" textAlignment="CENTER">
+                <cursor>
+                    <Cursor fx:constant="HAND" />
+                </cursor>
+            </Button>
+            <Separator prefWidth="200.0" style="-fx-opacity: 0;" VBox.vgrow="ALWAYS" />
+            <Button fx:id="validity" mnemonicParsing="false" onAction="#CallValidator" prefHeight="50.0" prefWidth="150.0" style="-fx-border-color: #5B5BF0; -fx-background-color: #2b2b2b; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
+                <cursor>
+                    <Cursor fx:constant="HAND" />
+                </cursor>
+            </Button>
+            <Separator prefWidth="200.0" style="-fx-opacity: 0;" VBox.vgrow="ALWAYS" />
+            <Button fx:id="to_JSON" mnemonicParsing="false" onAction="#CallJSON" prefHeight="50.0" prefWidth="150.0" style="-fx-border-color: #5B5BF0; -fx-background-color: #2b2b2b; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
+                <cursor>
+                    <Cursor fx:constant="HAND" />
+                </cursor>
+            </Button>
+            <Separator prefWidth="200.0" style="-fx-opacity: 0;" VBox.vgrow="ALWAYS" />
+            <Button fx:id="min" mnemonicParsing="false" onAction="#CallMinifier" prefHeight="50.0" prefWidth="150.0" style="-fx-border-color: #5B5BF0; -fx-background-color: #2b2b2b; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
+                <cursor>
+                    <Cursor fx:constant="HAND" />
+                </cursor>
+            </Button>
+            <Separator prefWidth="200.0" style="-fx-opacity: 0;" VBox.vgrow="ALWAYS" />
+            <Button fx:id="comp" mnemonicParsing="false" onAction="#Call_XMLCompression" prefHeight="50.0" prefWidth="150.0" style="-fx-border-color: #5B5BF0; -fx-background-color: #2b2b2b; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
+                <cursor>
+                    <Cursor fx:constant="HAND" />
+                </cursor>
+            </Button>
+         <Separator prefWidth="200.0" style="-fx-opacity: 0;" />
+         <Button fx:id="JsonCompressor" mnemonicParsing="false" onAction="#Call_JsonCompression" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #2b2b2b; -fx-border-color: #5B5BF0; -fx-border-radius: 33; -fx-border-width: 3;">
+            <cursor>
+               <Cursor fx:constant="HAND" />
+            </cursor>
+         </Button>
+            <Separator prefWidth="200.0" style="-fx-opacity: 0;" VBox.vgrow="ALWAYS" />
+            <Button fx:id="DecomXML" mnemonicParsing="false" onAction="#Call_XmlDecompression" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #2b2b2b; -fx-border-color: #5B5BF0; -fx-border-radius: 33; -fx-border-width: 3;">
+                <cursor>
+                    <Cursor fx:constant="HAND" />
+                </cursor></Button>
+            <Separator prefWidth="200.0" style="-fx-opacity: 0;" />
+            <Button fx:id="Jsondecomp" contentDisplay="CENTER" mnemonicParsing="false" onAction="#Call_JsonDecompressor" prefHeight="50.0" prefWidth="128.0" style="-fx-border-color: #5B5BF0; -fx-background-color: #2b2b2b; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
+                <cursor>
+                    <Cursor fx:constant="HAND" />
+                </cursor>
+            </Button>
+            <Separator prefWidth="200.0" style="-fx-opacity: 0;" />
+            <Button fx:id="Graph" contentDisplay="CENTER" mnemonicParsing="false" onAction="#Call_GraphVisualizer" prefHeight="50.0" prefWidth="128.0" style="-fx-border-color: #5B5BF0; -fx-background-color: #2b2b2b; -fx-border-radius: 33; -fx-border-width: 3;" textAlignment="CENTER">
+                <cursor>
+                    <Cursor fx:constant="HAND" />
+                </cursor>
+            </Button>
+        </VBox>
+        <Button fx:id="backButton" layoutX="4.0" layoutY="500.0" mnemonicParsing="false" onAction="#ReturnToMainScene" prefHeight="20.0" prefWidth="124.0" style="-fx-background-color: #5B5BF0; -fx-border-color: #5B5BF0; -fx-border-radius: 25; -fx-text-fill: white; -fx-background-radius: 35; -fx-pref-height: 10;" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="4.0">
+            <font>
+                <Font name="Arial Nova" size="23.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+    </AnchorPane>
+    <AnchorPane layoutX="142.0" layoutY="9.0" prefHeight="554.0" prefWidth="555.0" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="142.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="9.0">
+        <HBox layoutX="57.0" layoutY="5.0" prefHeight="31.0" prefWidth="548.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="5.0">
+            <ButtonBar prefHeight="33.0" prefWidth="387.0" HBox.hgrow="ALWAYS">
+                <buttons>
+                    <Button fx:id="mutualFollowers" mnemonicParsing="false" onAction="#Mutual" prefHeight="70.0" prefWidth="150.0" style="-fx-background-color: #2b2b2b; -fx-border-color: #5B5BF0; -fx-border-radius: 33; -fx-border-width: 3;" text="MutualFollowers" textFill="#5b5bf0">
+                        <cursor>
+                            <Cursor fx:constant="HAND" />
+                        </cursor></Button>
+                    <Button fx:id="mostActiveButton" mnemonicParsing="false" onAction="#Most_Active" prefHeight="70.0" prefWidth="150.0" style="-fx-background-color: #2b2b2b; -fx-border-color: #5B5BF0; -fx-border-radius: 33; -fx-border-width: 3;" text="MostActive" textFill="#5b5bf0">
+                        <cursor>
+                            <Cursor fx:constant="HAND" />
+                        </cursor></Button>
+                    <Button fx:id="most_Influencer" mnemonicParsing="false" onAction="#Most_Influencer" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #2b2b2b; -fx-border-color: #5B5BF0; -fx-border-radius: 33; -fx-border-width: 3;" text="MostInfluncer" textFill="#5b5bf0">
+                        <cursor>
+                            <Cursor fx:constant="HAND" />
+                        </cursor></Button>
+                    <Button fx:id="suggest" mnemonicParsing="false" onAction="#Suggest" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #2b2b2b; -fx-border-color: #5B5BF0; -fx-border-radius: 33; -fx-border-width: 3;" text="SuggestFollowers" textFill="#5b5bf0">
+                        <cursor>
+                            <Cursor fx:constant="HAND" />
+                        </cursor></Button>
+               <Button fx:id="PostSearch" onAction="#Call_PostSearch" mnemonicParsing="false" style="-fx-background-color: #2b2b2b; -fx-border-color: #5B5BF0; -fx-border-radius: 33; -fx-border-width: 3;" text="Post Search" textFill="#5b5bf0">
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor></Button>
+                </buttons>
+            </ButtonBar>
+        </HBox>
+        <VBox layoutX="-3.0" layoutY="36.0" prefHeight="517.0" prefWidth="562.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="-3.0" AnchorPane.rightAnchor="-4.0" AnchorPane.topAnchor="36.0">
+            <TextArea fx:id="contentArea" prefHeight="522.0" prefWidth="554.0" style="-fx-background-color: transparent; -fx-font-family: TRON;" wrapText="true" VBox.vgrow="ALWAYS" />
+        </VBox>
+    </AnchorPane>
+</AnchorPane>
