@@ -1,0 +1,93 @@
+<users>
+    <user>
+        <id>1</id>
+        <name>Ahmed Ali</name>
+        <followers>
+            <follower><id>2</id></follower>
+            <follower><id>3</id></follower>
+            <follower><id>4</id></follower>
+            <follower><id>5</id></follower>
+        </followers>
+    </user>
+    <user>
+        <id>2</id>
+        <name>Yasser Ahmed</name>
+        <followers>
+            <follower><id>1</id></follower>
+            <follower><id>3</id></follower>
+            <follower><id>6</id></follower>
+        </followers>
+    </user>
+    <user>
+        <id>3</id>
+        <name>Mohamed Sherif</name>
+        <followers>
+            <follower><id>1</id></follower>
+            <follower><id>2</id></follower>
+            <follower><id>4</id></follower>
+        </followers>
+    </user>
+    <user>
+        <id>4</id>
+        <name>Salma Hassan</name>
+        <followers>
+            <follower><id>1</id></follower>
+            <follower><id>3</id></follower>
+            <follower><id>5</id></follower>
+            <follower><id>6</id></follower>
+        </followers>
+    </user>
+    <user>
+        <id>5</id>
+        <name>Sara Ibrahim</name>
+        <followers>
+            <follower><id>1</id></follower>
+            <follower><id>4</id></follower>
+        </followers>
+    </user>
+    <user>
+        <id>6</id>
+        <name>Hassan Khaled</name>
+        <followers>
+            <follower><id>2</id></follower>
+            <follower><id>4</id></follower>
+        </followers>
+    </user>
+    <user>
+        <id>7</id>
+        <name>Laila Hany</name>
+        <followers>
+            <follower><id>1</id></follower>
+            <follower><id>3</id></follower>
+            <follower><id>5</id></follower>
+        </followers>
+    </user>
+    <user>
+        <id>8</id>
+        <name>Omar Fahmy</name>
+        <followers>
+            <follower><id>6</id></follower>
+            <follower><id>7</id></follower>
+            <follower><id>1</id></follower>
+        </followers>
+    </user>
+    <user>
+        <id>9</id>
+        <name>Ali Mahmoud</name>
+        <followers>
+            <follower><id>1</id></follower>
+            <follower><id>3</id></follower>
+            <follower><id>7</id></follower>
+        </followers>
+    </user>
+    <user>
+        <id>10</id>
+        <name>Nadia Karim</name>
+        <followers>
+            <follower><id>1</id></follower>
+            <follower><id>2</id></follower>
+            <follower><id>5</id></follower>
+            <follower><id>9</id></follower>
+        </followers>
+    </user>
+</users>
