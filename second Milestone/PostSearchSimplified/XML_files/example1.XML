@@ -1,0 +1,42 @@
+<!-- Sample XML for PostSearchSimplified -->
+
+<users>
+    <user>
+        <id>001</id>
+        <name>Alice</name>
+        <post>
+            <body>Hello world! This is my first post.</body>
+            <topics>
+                <topic>Introduction</topic>
+                <topic>General</topic>
+            </topics>
+        </post>
+        <post>
+            <body>Working on a Java project about XML parsing.</body>
+            <topics>
+                <topic>Java</topic>
+                <topic>XML</topic>
+            </topics>
+        </post>
+    </user>
+
+    <!-- The following user has a comment inside to test comment skipping -->
+    <user>
+        <id>002</id>
+        <name>Bob</name>
+        <post>
+            <!-- This comment should be skipped by the parser -->
+            <body>Just sharing some insights on data structures.</body>
+            <topics>
+                <topic>DataStructures</topic>
+                <topic>Algorithms</topic>
+            </topics>
+        </post>
+        <post>
+            <body>Anyone knows about multi-threading in Java?</body>
+            <topics>
+                <topic>Java</topic>
+            </topics>
+        </post>
+    </user>
+</users>
