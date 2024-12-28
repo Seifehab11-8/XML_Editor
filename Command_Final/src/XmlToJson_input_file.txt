@@ -1,0 +1,14 @@
+<company>
+    <name>TechCorp</name>
+    <location>San Francisco</location>
+    <employees>
+        <employee>
+            <name>Alice</name>
+            <role>Developer</role>
+        </employee>
+        <employee>
+            <name>Bob</name>
+            <role>Designer</role>
+        </employee>
+    </employees>
+</company>

@@ -1,0 +1,21 @@
+javac *.java
+java DSAproject.xml_editor verify  -i Invalid_input_file.xml
+java DSAproject.xml_editor verify  -i valid_input_file.xml
+java DSAproject.xml_editor verify  -i uncorrected_input_file.xml -f -o corrected_output_file.xml
+java DSAproject.xml_editor prettify -i prettifier_input_file.xml -o prettifier_output_file.xml
+java DSAproject.xml_editor json -i XmlToJson_input_file.txt -o XmlToJson_output_file.txt
+java DSAproject.xml_editor mini -i Minifier_input_file.xml -o Minifier_output_file.xml
+java DSAproject.xml_editor compress -i compression_xml_inputFile.xml -o compressed_xml.comp
+java DSAproject.xml_editor decompressXML -k KeyFileXML.comp -c compressed_xml.comp -o Decompressed_xml.txt
+java DSAproject.xml_editor compress -i compression_json_inputFile.json -o compressed_json.comp
+java DSAproject.xml_editor decompressJSON -k KeyFileJSON.comp -c compressed_json.comp -o Decompressed_json.txt
+java DSAproject.xml_editor most_active -i NetworkAnalysis_input_file.xml
+java DSAproject.xml_editor most_influencer -i NetworkAnalysis_input_file.xml
+java DSAproject.xml_editor mutual -i NetworkAnalysis_input_file.xml -ids 1,2,3
+java DSAproject.xml_editor mutual -i NetworkAnalysis_input_file.xml -ids 2,3
+java DSAproject.xml_editor suggest -i NetworkAnalysis_input_file.xml -id 1
+java DSAproject.xml_editor suggest -i NetworkAnalysis_input_file.xml -id 2
+java DSAproject.xml_editor suggest -i NetworkAnalysis_input_file.xml -id 3
+java DSAproject.xml_editor search -w lorem -i postsearch_input_file.xml
+java DSAproject.xml_editor search -t sports -i postsearch_input_file.xml
+java DSAproject.xml_editor search -t economy -i postsearch_input_file.xml

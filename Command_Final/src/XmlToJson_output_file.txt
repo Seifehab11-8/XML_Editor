@@ -1,0 +1,16 @@
+{
+  "name": "TechCorp",
+  "location": "San Francisco",
+  "employees": {
+  "employee": [
+{
+  "name": "Alice",
+  "role": "Developer"
+},
+{
+  "name": "Bob",
+  "role": "Designer"
+}
+  ]
+}
+}
