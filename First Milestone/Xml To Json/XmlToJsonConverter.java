@@ -1,3 +1,4 @@
+package df;
 
 import java.io.*;
 import java.util.*;
@@ -7,17 +8,12 @@ public class XmlToJsonConverter {
     public static void main(String[] args) {
         // Provide the path to the XML file
         String filePath = "C:/mine/dsa labs/test1.txt";
+        String data =null ;
 
         try {
             // Read XML  from text file using it's path
-            String xmlData = readFile(filePath);
-
-            // Parse XML manually and return root of the tree
-            XmlElement root = parseXml(xmlData);
-
-            // Convert to JSON
-            String json = xmlToJson(root);
-            System.out.println(json);
+        	data=XmlToJsonConverter.xmlToJson(XmlToJsonConverter.parseXml((XmlToJsonConverter.readFile(filePath))));
+            System.out.println(data);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -25,7 +21,7 @@ public class XmlToJsonConverter {
     }
 
    
-    private static String readFile(String filePath) throws IOException {
+    public static String readFile(String filePath) throws IOException {
         StringBuilder content = new StringBuilder();
         // create bufferreader object to read file with given path
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
@@ -52,7 +48,7 @@ public class XmlToJsonConverter {
     }
 
     // Function to parse XML to return xml elemnt of root with all its children
-    private static XmlElement parseXml(String xmlData) {
+    public static XmlElement parseXml(String xmlData) {
         Stack<XmlElement> stack = new Stack<>();
         XmlElement root = null;
 
@@ -92,7 +88,7 @@ public class XmlToJsonConverter {
     }
 
     // Function to convert the xml to JSON by passing only the root of tree
-    private static String xmlToJson(XmlElement element) {
+    public static String xmlToJson(XmlElement element) {
         StringBuilder json = new StringBuilder(); //to append the json format in it
         json.append("{\n"); // the start of the output
 
